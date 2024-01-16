@@ -1,0 +1,20 @@
+.button {
+	display: block;
+	min-width: 180px;
+	background-color: var(--c-grey);
+	color: var(--c-gold);
+	border: none;
+	padding: 10px 15px;
+	border-radius: 5px;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.closeButton {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 20px;
+	min-width: auto;
+	background-color: transparent;
+}
