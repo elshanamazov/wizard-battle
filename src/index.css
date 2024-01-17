@@ -8,19 +8,19 @@
 
 	--c-light: #f3fcff;
 	--c-dark: #000000;
+	--c-dark-opacity: rgba(0, 0, 0, 0.7);
+	--c-grey: #424242;
+	--c-gold: #f0e68c;
+	--c-red: #ee3a3a;
+	--c-blue: #2d73fc;
 }
-
 *,
 *::before,
 *::after {
-	box-sizing: inherit;
-}
-
-html {
 	box-sizing: border-box;
 }
 
-body {
+html {
 	font-family: var(--font-family);
 }
 
