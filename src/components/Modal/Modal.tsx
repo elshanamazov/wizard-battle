@@ -1,5 +1,5 @@
 import Button from "../Button/Button";
-import styles from "./Modal.module.css";
+import styles from "./Modal.module.scss";
 
 type ModalProps = {
 	text: string;
@@ -9,10 +9,10 @@ type ModalProps = {
 
 const Modal = ({ text, onClose, children }: ModalProps) => {
 	return (
-		<div className={styles.modalOverlay}>
-			<div className={styles.modalContent}>
+		<div className={styles.modal}>
+			<div className={styles.modal__content}>
 				<Button label="X" onClick={onClose} className="closeButton" />
-				<p className={styles.modalText}>{text}</p>
+				<p className={styles.modal__text}>{text}</p>
 				{children}
 			</div>
 		</div>

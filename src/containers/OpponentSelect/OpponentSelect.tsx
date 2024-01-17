@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button from "../../components/Button/Button";
-import styles from "./OpponentSelect.module.css";
+import styles from "./OpponentSelect.module.scss";
 const OpponentSelect = () => {
 	const [selectOption, setSelectOption] = useState("manual");
 

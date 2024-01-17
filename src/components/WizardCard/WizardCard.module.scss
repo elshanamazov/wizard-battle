@@ -1,0 +1,52 @@
+.wizardCard {
+	max-width: 370px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	display: flex;
+	align-items: flex-start;
+	flex-direction: column;
+	padding: 38px;
+	gap: 24px;
+	background-color: var(--c-grey);
+
+	&__placeholder {
+		display: block;
+		width: 100%;
+		height: 230px;
+		overflow: hidden;
+		object-fit: cover;
+		border-radius: 5px;
+		background-color: var(--c-light);
+	}
+
+	&__info {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		gap: 10px;
+		color: var(--c-light);
+	}
+
+	&__name {
+		font-weight: 600;
+		font-size: 24px;
+		line-height: 1.5;
+		margin: 0;
+	}
+
+	&__bar {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 5px;
+		font-size: 18px;
+		line-height: 1.2;
+		width: 100%;
+		height: 32px;
+		background-color: var(--c-red);
+
+		&_blue {
+			background-color: var(--c-blue);
+		}
+	}
+}
