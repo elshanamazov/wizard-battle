@@ -22,4 +22,13 @@
 		color: var(--c-grey);
 		font-size: 16px;
 	}
+
+	&__close {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		font-size: 20px;
+		min-width: auto;
+		background-color: transparent;
+	}
 }
