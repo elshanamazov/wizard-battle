@@ -12,8 +12,8 @@ const Modal = ({ text, onClose, children }: ModalProps) => {
 		<div className={styles.modal}>
 			<div className={styles.modal__content}>
 				<IconButton
-					onClick={onClose}
 					className={styles.modal__close}
+					onClick={onClose}
 					icon={
 						<svg
 							width="30"

@@ -3,7 +3,7 @@ import Button from "../../components/UI/Button/Button";
 import Modal from "../../components/UI/Modal/Modal";
 import styles from "./OpponentSelect.module.scss";
 const OpponentSelect = () => {
-	const [selectOption, setSelectOption] = useState("manual");
+	const [selectOption, setSelectOption] = useState<"manual" | "auto">("manual");
 
 	return (
 		<section className="selection">
