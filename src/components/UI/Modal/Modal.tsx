@@ -2,18 +2,26 @@ import IconButton from "../IconButton/IconButton";
 import styles from "./Modal.module.scss";
 
 type ModalProps = {
+	isOpen: boolean;
 	text: string;
 	onClose: () => void;
 	children?: React.ReactNode;
 };
 
-const Modal = ({ text, onClose, children }: ModalProps) => {
+const Modal = ({ text, onClose, children, isOpen }: ModalProps) => {
+	const textClickHandler = (event: React.MouseEvent<HTMLParagraphElement>) => {
+		event.stopPropagation();
+	};
+
+	if (!isOpen) return null;
+	// const modalClass = isOpen ? `${styles.modal} ${styles.open}` : styles.modal;
+
 	return (
-		<div className={styles.modal}>
-			<div className={styles.modal__content}>
+		<div className={styles.modal} onClick={onClose}>
+			<div className={styles.modal__content} onClick={textClickHandler}>
 				<IconButton
-					onClick={onClose}
 					className={styles.modal__close}
+					onClick={onClose}
 					icon={
 						<svg
 							width="30"
