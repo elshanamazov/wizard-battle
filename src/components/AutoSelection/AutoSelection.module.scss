@@ -3,11 +3,18 @@
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
+		gap: 15px;
 	}
 
 	&__cta {
 		display: flex;
 		flex-direction: column;
 		gap: 50px;
+
+		&_modify {
+			margin-top: 15px;
+			flex-direction: row;
+			gap: 15px;
+		}
 	}
 }
