@@ -1,7 +1,10 @@
 import { useState } from "react";
 
+import AutoSelection from "../../components/AutoSelection/AutoSelection";
+import ManualSelection from "../../components/ManualSelection/ManualSelection";
 import Button from "../../components/UI/Button/Button";
 import styles from "./OpponentSelect.module.scss";
+
 const OpponentSelect = () => {
 	const [selectOption, setSelectOption] = useState<"manual" | "auto" | null>(
 		null
@@ -11,7 +14,7 @@ const OpponentSelect = () => {
 		<section className={styles.selection}>
 			{!selectOption ? (
 				<>
-					<h2 className={styles.title}>Selection of opponents</h2>
+					<h2 className="title">Selection of opponents</h2>
 					<div className={styles.cta}>
 						<Button
 							label="Manual Selection"
@@ -25,11 +28,9 @@ const OpponentSelect = () => {
 					</div>
 				</>
 			) : selectOption === "manual" ? (
-				<div>
-					<p>manual option</p>
-				</div>
+				<ManualSelection />
 			) : (
-				<div>Auto option</div>
+				<AutoSelection />
 			)}
 		</section>
 	);

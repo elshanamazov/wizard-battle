@@ -40,3 +40,10 @@ img {
 a {
 	text-decoration: none;
 }
+
+.title {
+	margin: 0;
+	margin-bottom: 60px;
+	font-size: 36px;
+	text-align: center;
+}
