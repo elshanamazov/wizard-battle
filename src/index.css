@@ -10,6 +10,7 @@
 	--c-dark: #000000;
 	--c-dark-opacity: rgba(0, 0, 0, 0.7);
 	--c-grey: #424242;
+	--с-grey-dark: #2b2b2b;
 	--c-gold: #f0e68c;
 	--c-red: #ee3a3a;
 	--c-blue: #2d73fc;
@@ -38,4 +39,11 @@ img {
 
 a {
 	text-decoration: none;
+}
+
+.title {
+	margin: 0;
+	margin-bottom: 60px;
+	font-size: 36px;
+	text-align: center;
 }

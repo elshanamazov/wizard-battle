@@ -1,0 +1,13 @@
+.auto {
+	&__wrapper {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+	}
+
+	&__cta {
+		display: flex;
+		flex-direction: column;
+		gap: 50px;
+	}
+}

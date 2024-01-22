@@ -1,10 +1,14 @@
+import Header from "./components/Header/Header";
 import OpponentSelect from "./containers/OpponentSelect/OpponentSelect";
 
 function App() {
 	return (
-		<div className="container">
-			<OpponentSelect />
-		</div>
+		<>
+			<Header />
+			<div className="container">
+				<OpponentSelect />
+			</div>
+		</>
 	);
 }
 
