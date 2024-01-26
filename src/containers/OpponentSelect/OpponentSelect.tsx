@@ -11,28 +11,27 @@ const OpponentSelect = () => {
 	);
 
 	return (
-		<section className={styles.selection}>
+		<>
 			{!selectOption ? (
-				<>
+				<section className="pt-100">
 					<h2 className="title">Selection of opponents</h2>
 					<div className={styles.cta}>
 						<Button
 							label="Manual Selection"
 							onClick={() => setSelectOption("manual")}
 						/>
-
 						<Button
 							label="Automatic Selection"
 							onClick={() => setSelectOption("auto")}
 						/>
 					</div>
-				</>
-			) : selectOption === "manual" ? (
-				<ManualSelection />
-			) : (
-				<AutoSelection />
-			)}
-		</section>
+				</section>
+			) : null}
+
+			{selectOption === "manual" ? <ManualSelection /> : null}
+
+			{selectOption === "auto" ? <AutoSelection /> : null}
+		</>
 	);
 };
 

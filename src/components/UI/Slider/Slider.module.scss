@@ -1,0 +1,41 @@
+.slider {
+	max-width: 500px;
+	display: flex;
+	align-items: center;
+	&__slides {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 320px;
+		overflow: hidden;
+	}
+
+	&__slide {
+		flex-shrink: 0;
+		width: 50%;
+		opacity: 0.3;
+		transform: scale(0.9);
+		text-align: center;
+		height: 100%;
+		background: var(--c-grey);
+		transition: transform 0.5s ease, opacity 0.5s ease;
+
+		&_active {
+			opacity: 1;
+			transform: scale(1);
+			width: 80%;
+			z-index: 1;
+		}
+	}
+
+	&__arrow {
+		&_prev,
+		&_next {
+			fill: var(--c-grey);
+		}
+
+		&_prev {
+			transform: rotate(180deg);
+		}
+	}
+}

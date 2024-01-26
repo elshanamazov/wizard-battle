@@ -52,7 +52,7 @@ const AutoSelection = () => {
 	};
 
 	return (
-		<div className={styles.auto}>
+		<section className="pt-100">
 			<h2 className="title">Auto selection of opponents</h2>
 			<div className={styles.auto__wrapper}>
 				<WizardCard name={leftOpponent} healthPoints={100} mannaPoints={100} />
@@ -83,7 +83,7 @@ const AutoSelection = () => {
 					</div>
 				</Modal>
 			</div>
-		</div>
+		</section>
 	);
 };
 
