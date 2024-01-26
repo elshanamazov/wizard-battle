@@ -47,3 +47,7 @@ a {
 	font-size: 36px;
 	text-align: center;
 }
+
+.pt-100 {
+	padding-top: 100px;
+}

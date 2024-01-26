@@ -5,9 +5,11 @@ function App() {
 	return (
 		<>
 			<Header />
-			<div className="container">
-				<OpponentSelect />
-			</div>
+			<main>
+				<div className="container">
+					<OpponentSelect />
+				</div>
+			</main>
 		</>
 	);
 }

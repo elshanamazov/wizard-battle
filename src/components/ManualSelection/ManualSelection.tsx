@@ -2,9 +2,10 @@ import styles from "./ManualSelection.module.scss";
 
 const ManualSelection = () => {
 	return (
-		<div className={styles.manual}>
+		<section className="pt-100">
 			<h2 className="title">Manual selection of opponents</h2>
-		</div>
+			<div className={styles.manual__wrapper}></div>
+		</section>
 	);
 };
 
