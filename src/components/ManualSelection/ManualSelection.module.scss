@@ -1,6 +1,45 @@
 .manual {
 	&__wrapper {
 		display: flex;
-		justify-content: center;
+		justify-content: space-around;
+		align-items: center;
+	}
+
+	&__img {
+		height: 100%;
+		position: relative;
+		z-index: 1;
+	}
+
+	&__label {
+		position: absolute;
+		left: 10px;
+		bottom: 10px;
+		z-index: 2;
+		margin: 0;
+		padding: 5px;
+		color: var(--c-gold);
+		background: var(--c-dark-opacity);
+		border-radius: 5px;
+	}
+
+	&__text {
+		font-size: 21px;
+	}
+
+	&__counter {
+		font-size: 24px;
+		font-weight: bold;
+		color: var(--c-grey);
+		animation: fadeInOut 1s ease-in-out;
+	}
+}
+
+@keyframes fadeInOut {
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
 	}
 }
