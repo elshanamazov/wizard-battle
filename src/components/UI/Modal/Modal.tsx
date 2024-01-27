@@ -4,11 +4,18 @@ import styles from "./Modal.module.scss";
 type ModalProps = {
 	isOpen: boolean;
 	text: string;
+	textCustomClass?: string;
 	onClose: () => void;
 	children?: React.ReactNode;
 };
 
-const Modal = ({ text, onClose, children, isOpen }: ModalProps) => {
+const Modal = ({
+	text,
+	onClose,
+	children,
+	isOpen,
+	textCustomClass,
+}: ModalProps) => {
 	const textClickHandler = (event: React.MouseEvent<HTMLParagraphElement>) => {
 		event.stopPropagation();
 	};
@@ -36,7 +43,9 @@ const Modal = ({ text, onClose, children, isOpen }: ModalProps) => {
 						</svg>
 					}
 				/>
-				<p className={styles.modal__text}>{text}</p>
+				<p className={`${styles.modal__text} ${textCustomClass || ""}`}>
+					{text}
+				</p>
 				{children}
 			</div>
 		</div>
