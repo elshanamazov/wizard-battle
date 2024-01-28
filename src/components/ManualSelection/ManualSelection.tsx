@@ -10,12 +10,12 @@ const ManualSelection = () => {
 	const intervalRef = useRef<number | null>(null);
 
 	const wizardsData = [
-		{ id: 1, name: "Hermione Granger", imagePath: "./pic_1.jpeg" },
-		{ id: 2, name: "Draco Malfoy", imagePath: "./pic_2.jpeg" },
-		{ id: 3, name: "Harry Potter", imagePath: "./pic_3.jpeg" },
-		{ id: 4, name: "Death Eater", imagePath: "./pic_4.jpeg" },
-		{ id: 5, name: "Dumbledore", imagePath: "./pic_5.jpeg" },
-		{ id: 6, name: "Hagrid", imagePath: "./pic_6.jpeg" },
+		{ id: 1, name: "Hermione Granger", imagePath: "/wizard-battle/pic_1.jpeg" },
+		{ id: 2, name: "Draco Malfoy", imagePath: "/wizard-battle/pic_2.jpeg" },
+		{ id: 3, name: "Harry Potter", imagePath: "/wizard-battle/pic_3.jpeg" },
+		{ id: 4, name: "Death Eater", imagePath: "/wizard-battle/pic_4.jpeg" },
+		{ id: 5, name: "Dumbledore", imagePath: "/wizard-battle/pic_5.jpeg" },
+		{ id: 6, name: "Hagrid", imagePath: "/wizard-battle/pic_6.jpeg" },
 	];
 
 	const wizardSlides = wizardsData.map((wizardSlide) => ({
