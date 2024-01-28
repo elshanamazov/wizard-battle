@@ -1,37 +1,26 @@
-import { useState } from "react";
-
-import AutoSelection from "../../components/AutoSelection/AutoSelection";
-import ManualSelection from "../../components/ManualSelection/ManualSelection";
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/UI/Button/Button";
 import styles from "./OpponentSelect.module.scss";
 
 const OpponentSelect = () => {
-	const [selectOption, setSelectOption] = useState<"manual" | "auto" | null>(
-		null
-	);
+	const navigate = useNavigate();
+
+	const handleManualSelect = () => {
+		navigate("/duel-setting/manual");
+	};
+
+	const handleAutoSelect = () => {
+		navigate("/duel-setting/auto");
+	};
 
 	return (
-		<>
-			{!selectOption ? (
-				<section className="pt-100">
-					<h2 className="title">Selection of opponents</h2>
-					<div className={styles.cta}>
-						<Button
-							label="Manual Selection"
-							onClick={() => setSelectOption("manual")}
-						/>
-						<Button
-							label="Automatic Selection"
-							onClick={() => setSelectOption("auto")}
-						/>
-					</div>
-				</section>
-			) : null}
-
-			{selectOption === "manual" ? <ManualSelection /> : null}
-
-			{selectOption === "auto" ? <AutoSelection /> : null}
-		</>
+		<section className="pt-100">
+			<h2 className="title">Selection of opponents</h2>
+			<div className={styles.cta}>
+				<Button label="Manual Selection" onClick={handleManualSelect} />
+				<Button label="Automatic Selection" onClick={handleAutoSelect} />
+			</div>
+		</section>
 	);
 };
 
