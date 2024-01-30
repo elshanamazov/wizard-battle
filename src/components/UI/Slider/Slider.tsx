@@ -15,14 +15,12 @@ const Slider = ({ slides, onSelect, activeIndex = 0 }: SliderProps) => {
 	const [currentIndex, setCurrentIndex] = useState(activeIndex || 0);
 
 	const prevSlide = () => {
-		if (slides.length <= 1) return;
 		const newIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
 		setCurrentIndex(newIndex);
 		updateActiveWizard(newIndex);
 	};
 
 	const nextSlide = () => {
-		if (slides.length <= 1) return;
 		const newIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
 		setCurrentIndex(newIndex);
 		updateActiveWizard(newIndex);
@@ -43,11 +41,8 @@ const Slider = ({ slides, onSelect, activeIndex = 0 }: SliderProps) => {
 		}
 	}, [activeIndex, slides.length]);
 
-	if (!slides.length) return null;
-
 	const getSlideIndex = (index: number) => {
-		const numSlides = slides.length;
-		return (index + numSlides) % numSlides;
+		return (index + slides.length) % slides.length;
 	};
 
 	const displaySlides = [
