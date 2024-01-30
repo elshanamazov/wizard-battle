@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { loadFromStorage, saveToStorage } from "../../utils/storageUtil";
+import { DuelStateId } from "../../utils/types";
 import Button from "../UI/Button/Button";
 import Modal from "../UI/Modal/Modal";
 import Slider from "../UI/Slider/Slider";
@@ -8,6 +10,17 @@ const ManualSelection = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [counter, setCounter] = useState(3);
 	const intervalRef = useRef<number | null>(null);
+
+	const savedState = loadFromStorage<DuelStateId>("manualDuelState");
+	const initialFirstWizard = savedState?.firstDuelistId || null;
+	const initialSecondWizard = savedState?.secondDuelistId || null;
+
+	const [firstWizard, setFirstWizard] = useState<number | null>(
+		initialFirstWizard
+	);
+	const [secondWizard, setSecondWizard] = useState<number | null>(
+		initialSecondWizard
+	);
 
 	const wizardsData = [
 		{ id: 1, name: "Hermione Granger", imagePath: "/wizard-battle/pic_1.jpeg" },
@@ -39,6 +52,14 @@ const ManualSelection = () => {
 		}
 	};
 
+	const handleFirstWizardSelect = (wizardId: number) => {
+		setFirstWizard(wizardId);
+	};
+
+	const handleSecondWizardSelect = (wizardId: number) => {
+		setSecondWizard(wizardId);
+	};
+
 	const startCounter = () => {
 		setIsModalOpen(true);
 		setCounter(3);
@@ -67,13 +88,28 @@ const ManualSelection = () => {
 		};
 	}, []);
 
+	useEffect(() => {
+		saveToStorage<DuelStateId>("manualDuelState", {
+			firstDuelistId: firstWizard,
+			secondDuelistId: secondWizard,
+		});
+	}, [firstWizard, secondWizard]);
+
 	return (
 		<section className="pt-100">
 			<h2 className="title">Manual selection of opponents</h2>
 			<div className={styles.manual__wrapper}>
-				<Slider slides={wizardSlides} />
+				<Slider
+					slides={wizardSlides}
+					onSelect={handleFirstWizardSelect}
+					activeIndex={firstWizard}
+				/>
 				<Button label="To Fight!" onClick={startCounter} />
-				<Slider slides={wizardSlides} />
+				<Slider
+					slides={wizardSlides}
+					onSelect={handleSecondWizardSelect}
+					activeIndex={secondWizard}
+				/>
 			</div>
 			{isModalOpen && (
 				<Modal

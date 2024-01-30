@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { loadFromStorage, saveToStorage } from "../../utils/storageUtil";
+import { DuelStateId } from "../../utils/types";
 import Button from "../UI/Button/Button";
 import Modal from "../UI/Modal/Modal";
 import WizardCard from "../WizardCard/WizardCard";
@@ -11,18 +13,18 @@ const AutoSelection = () => {
 	const [rightOpponent, setRightOpponent] = useState("Voldemort");
 
 	const wizards = [
-		"Harry Potter",
-		"Hermione Granger",
-		"Ron Weasley",
-		"Albus Dumbledore",
-		"Severus Snape",
-		"Voldemort",
-		"Sirius Black",
-		"Draco Malfoy",
-		"Rubeus Hagrid",
-		"Minerva McGonagall",
-		"Bellatrix Lestrange",
-		"Luna Lovegood",
+		{ id: 1, name: "Harry Potter" },
+		{ id: 2, name: "Hermione Granger" },
+		{ id: 3, name: "Ron Weasley" },
+		{ id: 4, name: "Albus Dumbledore" },
+		{ id: 5, name: "Severus Snape" },
+		{ id: 6, name: "Voldemort" },
+		{ id: 7, name: "Sirius Black" },
+		{ id: 8, name: "Draco Malfoy" },
+		{ id: 9, name: "Rubeus Hagrid" },
+		{ id: 10, name: "Minerva McGonagall" },
+		{ id: 11, name: "Bellatrix Lestrange" },
+		{ id: 12, name: "Luna Lovegood" },
 	];
 
 	const getRandomWizard = () => {
@@ -39,10 +41,16 @@ const AutoSelection = () => {
 
 	const handleSearch = () => {
 		setIsSearching(true);
-
 		const searchInterval = setInterval(() => {
-			setLeftOpponent(getRandomWizard());
-			setRightOpponent(getRandomWizard());
+			const leftWizard = getRandomWizard();
+			const rightWizard = getRandomWizard();
+			setLeftOpponent(leftWizard.name);
+			setRightOpponent(rightWizard.name);
+
+			saveToStorage<DuelStateId>("autoDuelState", {
+				firstDuelistId: leftWizard.id,
+				secondDuelistId: rightWizard.id,
+			});
 		}, 1000);
 
 		setTimeout(() => {
@@ -50,6 +58,21 @@ const AutoSelection = () => {
 			setIsSearching(false);
 		}, 5000);
 	};
+
+	useEffect(() => {
+		const savedState = loadFromStorage<DuelStateId>("autoDuelState");
+		if (savedState) {
+			const { firstDuelistId, secondDuelistId } = savedState;
+			const leftWizard = wizards.find((wizard) => wizard.id === firstDuelistId);
+			const rightWizard = wizards.find(
+				(wizard) => wizard.id === secondDuelistId
+			);
+			if (leftWizard && rightWizard) {
+				setLeftOpponent(leftWizard.name);
+				setRightOpponent(rightWizard.name);
+			}
+		}
+	}, []);
 
 	return (
 		<section className="pt-100">

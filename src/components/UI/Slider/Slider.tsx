@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IconButton from "../IconButton/IconButton";
 import styles from "./Slider.module.scss";
 
@@ -7,28 +7,60 @@ type SliderProps = {
 		id: number;
 		content: JSX.Element | string;
 	}[];
+	onSelect?: (id: number) => void;
+	activeIndex?: number | null;
 };
 
-const Slider = ({ slides }: SliderProps) => {
-	const [activeIndex, setActiveIndex] = useState(0);
+const Slider = ({ slides, onSelect, activeIndex = 0 }: SliderProps) => {
+	const [currentIndex, setCurrentIndex] = useState(activeIndex || 0);
 
 	const prevSlide = () => {
-		setActiveIndex((prevIndex) =>
-			prevIndex === 0 ? slides.length - 1 : prevIndex - 1
-		);
+		if (slides.length <= 1) return;
+		const newIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
+		setCurrentIndex(newIndex);
+		updateActiveWizard(newIndex);
 	};
 
 	const nextSlide = () => {
-		setActiveIndex((nextIndex) =>
-			nextIndex === slides.length - 1 ? 0 : nextIndex + 1
-		);
+		if (slides.length <= 1) return;
+		const newIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
+		setCurrentIndex(newIndex);
+		updateActiveWizard(newIndex);
+	};
+
+	const updateActiveWizard = (newIndex: number) => {
+		const activeSlideId = slides[newIndex].id;
+		onSelect && onSelect(activeSlideId);
+	};
+
+	useEffect(() => {
+		if (
+			activeIndex !== null &&
+			activeIndex >= 0 &&
+			activeIndex < slides.length
+		) {
+			setCurrentIndex(activeIndex);
+		}
+	}, [activeIndex, slides.length]);
+
+	if (!slides.length) return null;
+
+	const getSlideIndex = (index: number) => {
+		const numSlides = slides.length;
+		return (index + numSlides) % numSlides;
 	};
 
 	const displaySlides = [
-		slides[(activeIndex - 1 + slides.length) % slides.length],
-		slides[activeIndex],
-		slides[(activeIndex + 1) % slides.length],
+		slides[getSlideIndex(currentIndex - 1)],
+		slides[getSlideIndex(currentIndex)],
+		slides[getSlideIndex(currentIndex + 1)],
 	];
+
+	// const displaySlides = [
+	// 	slides[(currentIndex - 1 + slides.length) % slides.length],
+	// 	slides[currentIndex],
+	// 	slides[(currentIndex + 1) % slides.length],
+	// ];
 
 	return (
 		<div className={styles.slider}>
