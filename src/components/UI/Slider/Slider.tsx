@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import IconButton from "../IconButton/IconButton";
-import styles from "./Slider.module.scss";
+import { useEffect, useState } from 'react';
+import IconButton from '../IconButton/IconButton';
+import styles from './Slider.module.scss';
 
 type SliderProps = {
 	slides: {
@@ -32,11 +32,7 @@ const Slider = ({ slides, onSelect, activeIndex = 0 }: SliderProps) => {
 	};
 
 	useEffect(() => {
-		if (
-			activeIndex !== null &&
-			activeIndex >= 0 &&
-			activeIndex < slides.length
-		) {
+		if (activeIndex !== null && activeIndex >= 0 && activeIndex < slides.length) {
 			setCurrentIndex(activeIndex);
 		}
 	}, [activeIndex, slides.length]);
@@ -50,12 +46,6 @@ const Slider = ({ slides, onSelect, activeIndex = 0 }: SliderProps) => {
 		slides[getSlideIndex(currentIndex)],
 		slides[getSlideIndex(currentIndex + 1)],
 	];
-
-	// const displaySlides = [
-	// 	slides[(currentIndex - 1 + slides.length) % slides.length],
-	// 	slides[currentIndex],
-	// 	slides[(currentIndex + 1) % slides.length],
-	// ];
 
 	return (
 		<div className={styles.slider}>
@@ -71,8 +61,7 @@ const Slider = ({ slides, onSelect, activeIndex = 0 }: SliderProps) => {
 						version="1.1"
 						id="Layer_1"
 						viewBox="0 0 330 330"
-						xmlSpace="preserve"
-					>
+						xmlSpace="preserve">
 						<path
 							id="XMLID_222_"
 							d="M250.606,154.389l-150-149.996c-5.857-5.858-15.355-5.858-21.213,0.001
@@ -87,10 +76,7 @@ const Slider = ({ slides, onSelect, activeIndex = 0 }: SliderProps) => {
 				{displaySlides.map((slide, index) => (
 					<div
 						key={slide.id}
-						className={`${styles.slider__slide} ${
-							index === 1 ? styles.slider__slide_active : ""
-						}`}
-					>
+						className={`${styles.slider__slide} ${index === 1 ? styles.slider__slide_active : ''}`}>
 						{slide.content}
 					</div>
 				))}
@@ -107,8 +93,7 @@ const Slider = ({ slides, onSelect, activeIndex = 0 }: SliderProps) => {
 						version="1.1"
 						id="Layer_1"
 						viewBox="0 0 330 330"
-						xmlSpace="preserve"
-					>
+						xmlSpace="preserve">
 						<path
 							id="XMLID_222_"
 							d="M250.606,154.389l-150-149.996c-5.857-5.858-15.355-5.858-21.213,0.001
