@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AutoSelection from "./components/AutoSelection/AutoSelection";
 import Header from "./components/Header/Header";
-import ManualSelection from "./components/ManualSelection/ManualSelection";
+import AutoSelection from "./containers/AutoSelection/AutoSelection";
+import ManualSelection from "./containers/ManualSelection/ManualSelection";
 import OpponentSelect from "./containers/OpponentSelect/OpponentSelect";
 
 function App() {

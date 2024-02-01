@@ -1,33 +1,50 @@
-import { useState } from "react";
-import IconButton from "../IconButton/IconButton";
-import styles from "./Slider.module.scss";
+import { useEffect, useState } from 'react';
+import IconButton from '../IconButton/IconButton';
+import styles from './Slider.module.scss';
 
 type SliderProps = {
 	slides: {
 		id: number;
 		content: JSX.Element | string;
 	}[];
+	onSelect?: (id: number) => void;
+	activeIndex?: number | null;
 };
 
-const Slider = ({ slides }: SliderProps) => {
-	const [activeIndex, setActiveIndex] = useState(0);
+const Slider = ({ slides, onSelect, activeIndex = 0 }: SliderProps) => {
+	const [currentIndex, setCurrentIndex] = useState(activeIndex || 0);
 
 	const prevSlide = () => {
-		setActiveIndex((prevIndex) =>
-			prevIndex === 0 ? slides.length - 1 : prevIndex - 1
-		);
+		const newIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
+		setCurrentIndex(newIndex);
+		updateActiveWizard(newIndex);
 	};
 
 	const nextSlide = () => {
-		setActiveIndex((nextIndex) =>
-			nextIndex === slides.length - 1 ? 0 : nextIndex + 1
-		);
+		const newIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
+		setCurrentIndex(newIndex);
+		updateActiveWizard(newIndex);
+	};
+
+	const updateActiveWizard = (newIndex: number) => {
+		const activeSlideId = slides[newIndex].id;
+		onSelect && onSelect(activeSlideId);
+	};
+
+	useEffect(() => {
+		if (activeIndex !== null && activeIndex >= 0 && activeIndex < slides.length) {
+			setCurrentIndex(activeIndex);
+		}
+	}, [activeIndex, slides.length]);
+
+	const getSlideIndex = (index: number) => {
+		return (index + slides.length) % slides.length;
 	};
 
 	const displaySlides = [
-		slides[(activeIndex - 1 + slides.length) % slides.length],
-		slides[activeIndex],
-		slides[(activeIndex + 1) % slides.length],
+		slides[getSlideIndex(currentIndex - 1)],
+		slides[getSlideIndex(currentIndex)],
+		slides[getSlideIndex(currentIndex + 1)],
 	];
 
 	return (
@@ -44,8 +61,7 @@ const Slider = ({ slides }: SliderProps) => {
 						version="1.1"
 						id="Layer_1"
 						viewBox="0 0 330 330"
-						xmlSpace="preserve"
-					>
+						xmlSpace="preserve">
 						<path
 							id="XMLID_222_"
 							d="M250.606,154.389l-150-149.996c-5.857-5.858-15.355-5.858-21.213,0.001
@@ -60,10 +76,7 @@ const Slider = ({ slides }: SliderProps) => {
 				{displaySlides.map((slide, index) => (
 					<div
 						key={slide.id}
-						className={`${styles.slider__slide} ${
-							index === 1 ? styles.slider__slide_active : ""
-						}`}
-					>
+						className={`${styles.slider__slide} ${index === 1 ? styles.slider__slide_active : ''}`}>
 						{slide.content}
 					</div>
 				))}
@@ -80,8 +93,7 @@ const Slider = ({ slides }: SliderProps) => {
 						version="1.1"
 						id="Layer_1"
 						viewBox="0 0 330 330"
-						xmlSpace="preserve"
-					>
+						xmlSpace="preserve">
 						<path
 							id="XMLID_222_"
 							d="M250.606,154.389l-150-149.996c-5.857-5.858-15.355-5.858-21.213,0.001
