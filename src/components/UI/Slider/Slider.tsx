@@ -14,21 +14,19 @@ type SliderProps = {
 const Slider = ({ slides, onSelect, activeIndex = 0 }: SliderProps) => {
 	const [currentIndex, setCurrentIndex] = useState(activeIndex || 0);
 
-	const prevSlide = () => {
-		const newIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
-		setCurrentIndex(newIndex);
-		updateActiveWizard(newIndex);
-	};
+	const navigate = (direction: 'next' | 'prev') => {
+		setCurrentIndex((prevIndex) => {
+			let newIndex = direction === 'next' ? prevIndex + 1 : prevIndex - 1;
 
-	const nextSlide = () => {
-		const newIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
-		setCurrentIndex(newIndex);
-		updateActiveWizard(newIndex);
-	};
+			if (newIndex < 0) {
+				newIndex = slides.length - 1;
+			} else if (newIndex >= slides.length) {
+				newIndex = 0;
+			}
 
-	const updateActiveWizard = (newIndex: number) => {
-		const activeSlideId = slides[newIndex].id;
-		onSelect && onSelect(activeSlideId);
+			onSelect?.(slides[newIndex].id);
+			return newIndex;
+		});
 	};
 
 	useEffect(() => {
@@ -51,7 +49,7 @@ const Slider = ({ slides, onSelect, activeIndex = 0 }: SliderProps) => {
 		<div className={styles.slider}>
 			<IconButton
 				className={styles.slide__arrow}
-				onClick={prevSlide}
+				onClick={() => navigate('prev')}
 				icon={
 					<svg
 						className={styles.slider__arrow_prev}
@@ -83,7 +81,7 @@ const Slider = ({ slides, onSelect, activeIndex = 0 }: SliderProps) => {
 			</div>
 			<IconButton
 				className={styles.slider__arrow}
-				onClick={nextSlide}
+				onClick={() => navigate('next')}
 				icon={
 					<svg
 						className={styles.slider__arrow_next}
