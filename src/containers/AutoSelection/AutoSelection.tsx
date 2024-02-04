@@ -92,6 +92,7 @@ const AutoSelection = () => {
 				<WizardCard name={rightOpponent} healthPoints={100} mannaPoints={100} />
 				<Modal
 					text="Do you confirm your choice of characters?"
+					textCustomClass={styles.auto__text}
 					onClose={modalCloseHandler}
 					isOpen={isOpen}>
 					<div className={`${styles.auto__cta} ${styles.auto__cta_modify}`}>

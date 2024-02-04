@@ -50,8 +50,8 @@ const ManualSelection = () => {
 		};
 
 	const startCounter = () => {
-		setIsModalOpen(true);
 		setCounter(3);
+		setIsModalOpen(true);
 
 		if (intervalRef.current !== null) {
 			clearInterval(intervalRef.current);
