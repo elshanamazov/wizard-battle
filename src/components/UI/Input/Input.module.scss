@@ -1,0 +1,28 @@
+.input {
+	&:not(:last-child) {
+		margin-bottom: 12px;
+	}
+
+	&__label {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 5px;
+		font-size: 14px;
+		color: var(--с-grey-dark);
+	}
+
+	&__field {
+		appearance: none;
+		border: 1px solid var(--c-grey);
+		border-radius: 5px;
+		background-color: #fff;
+		padding: 5px;
+		transition: box-shadow 0.3s;
+		color: var(--с-grey-dark);
+		&:focus {
+			box-shadow: 0 0 0 1px var(--c-dark-opacity);
+			outline: none;
+		}
+	}
+}

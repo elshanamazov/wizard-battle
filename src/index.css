@@ -25,6 +25,10 @@ html {
 	font-family: var(--font-family);
 }
 
+main {
+	height: 100vh;
+}
+
 .container {
 	margin: 0 auto;
 	padding: 0 var(--container-offset);
