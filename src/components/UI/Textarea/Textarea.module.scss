@@ -1,0 +1,25 @@
+.textarea {
+	&__label {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 5px;
+		font-size: 14px;
+		color: var(--с-grey-dark);
+	}
+
+	&__field {
+		padding: 5px;
+		border: 1px solid var(--c-grey);
+		border-radius: 5px;
+		background-color: #fff;
+		transition: box-shadow 0.3s;
+		color: var(--с-grey-dark);
+		resize: vertical;
+
+		&:focus {
+			box-shadow: 0 0 0 1px var(--c-dark-opacity);
+			outline: none;
+		}
+	}
+}

@@ -1,0 +1,19 @@
+.rating {
+	display: flex;
+
+	&__star {
+		border: none;
+		background-color: transparent;
+		padding: 0;
+		cursor: pointer;
+	}
+
+	&__svg {
+		fill: var(--c-grey);
+		transition: fill 0.2s;
+
+		&_filled {
+			fill: var(--c-gold);
+		}
+	}
+}
