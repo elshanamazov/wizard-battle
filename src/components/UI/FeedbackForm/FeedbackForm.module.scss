@@ -1,0 +1,10 @@
+.form {
+	width: 400px;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	padding: 20px;
+	background-color: var(--c-light);
+	border-radius: 5px;
+	border: 1px solid var(--c-dark-opacity-1);
+}

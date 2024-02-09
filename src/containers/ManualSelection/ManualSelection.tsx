@@ -6,6 +6,15 @@ import useLocalStorage from '../../hooks/useLocalStorage';
 import { SelectedDuelistsId } from '../selectedDuelists';
 import styles from './ManualSelection.module.scss';
 
+const wizardsData = [
+	{ id: 1, name: 'Hermione Granger', imagePath: '/wizard-battle/pic_1.jpeg' },
+	{ id: 2, name: 'Draco Malfoy', imagePath: '/wizard-battle/pic_2.jpeg' },
+	{ id: 3, name: 'Harry Potter', imagePath: '/wizard-battle/pic_3.jpeg' },
+	{ id: 4, name: 'Death Eater', imagePath: '/wizard-battle/pic_4.jpeg' },
+	{ id: 5, name: 'Dumbledore', imagePath: '/wizard-battle/pic_5.jpeg' },
+	{ id: 6, name: 'Hagrid', imagePath: '/wizard-battle/pic_6.jpeg' },
+];
+
 const ManualSelection = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [counter, setCounter] = useState(3);
@@ -14,15 +23,6 @@ const ManualSelection = () => {
 		'manualSelectedState',
 		{ firstDuelistId: null, secondDuelistId: null },
 	);
-
-	const wizardsData = [
-		{ id: 1, name: 'Hermione Granger', imagePath: '/wizard-battle/pic_1.jpeg' },
-		{ id: 2, name: 'Draco Malfoy', imagePath: '/wizard-battle/pic_2.jpeg' },
-		{ id: 3, name: 'Harry Potter', imagePath: '/wizard-battle/pic_3.jpeg' },
-		{ id: 4, name: 'Death Eater', imagePath: '/wizard-battle/pic_4.jpeg' },
-		{ id: 5, name: 'Dumbledore', imagePath: '/wizard-battle/pic_5.jpeg' },
-		{ id: 6, name: 'Hagrid', imagePath: '/wizard-battle/pic_6.jpeg' },
-	];
 
 	const wizardSlides = wizardsData.map((wizardSlide) => ({
 		id: wizardSlide.id,

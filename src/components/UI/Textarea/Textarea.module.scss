@@ -9,16 +9,19 @@
 	}
 
 	&__field {
-		padding: 5px;
-		border: 1px solid var(--c-grey);
+		width: 100%;
+		min-height: 100px;
+		padding: 10px;
+		border: 1px solid var(--c-dark-opacity-1);
 		border-radius: 5px;
 		background-color: #fff;
-		transition: box-shadow 0.3s;
 		color: var(--с-grey-dark);
 		resize: vertical;
+		transition: box-shadow 0.3s;
 
 		&:focus {
 			box-shadow: 0 0 0 1px var(--c-dark-opacity);
+			border: 0;
 			outline: none;
 		}
 	}
