@@ -6,9 +6,10 @@
 	--container-offset: 30px;
 	--container-width: calc(var(--content-width) + (var(--container-offset) * 2));
 
-	--c-light: #f3fcff;
+	--c-light: #ffffff;
 	--c-dark: #000000;
 	--c-dark-opacity: rgba(0, 0, 0, 0.7);
+	--c-dark-opacity-1: rgba(0, 0, 0, 0.2);
 	--c-grey: #424242;
 	--с-grey-dark: #2b2b2b;
 	--c-gold: #f0e68c;
@@ -54,4 +55,11 @@ a {
 
 .pt-100 {
 	padding-top: 100px;
+}
+
+.error {
+	font-size: 12px;
+	color: var(--c-red);
+	opacity: 0.8;
+	margin: 0;
 }

@@ -1,26 +1,21 @@
+import { useField } from 'formik';
 import styles from './Input.module.scss';
 
 type InputProps = {
 	label: string;
-	value: string;
-	onChange: (value: string) => void;
+	name: string;
 	placeholder?: string;
-	checked?: boolean;
 };
 
-const Input = ({ label, value, onChange, placeholder }: InputProps) => {
+const Input = ({ label, name, placeholder }: InputProps) => {
+	const [field, meta] = useField(name);
 	return (
 		<div className={styles.input}>
 			<label className={styles.input__label}>
 				{label}
-				<input
-					className={styles.input__field}
-					type="text"
-					value={value}
-					onChange={(e) => onChange(e.target.value)}
-					placeholder={placeholder}
-				/>
+				<input className={styles.input__field} type="text" placeholder={placeholder} {...field} />
 			</label>
+			{meta.touched && meta.error ? <div className="error">{meta.error}</div> : null}
 		</div>
 	);
 };

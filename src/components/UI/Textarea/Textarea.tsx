@@ -1,24 +1,22 @@
+import { useField } from 'formik';
 import styles from './Textarea.module.scss';
 
 type TextareaProps = {
 	label: string;
-	value: string;
-	onChange: (value: string) => void;
+	name: string;
 	placeholder?: string;
 };
 
-const Textarea = ({ label, value, onChange, placeholder }: TextareaProps) => {
+const Textarea = ({ label, name, placeholder }: TextareaProps) => {
+	const [field, meta] = useField(name);
+
 	return (
 		<div className={styles.textarea}>
 			<label className={styles.textarea__label}>
 				{label}
-				<textarea
-					className={styles.textarea__field}
-					value={value}
-					onChange={(e) => onChange(e.target.value)}
-					placeholder={placeholder}
-				/>
+				<textarea className={styles.textarea__field} {...field} placeholder={placeholder} />
 			</label>
+			{meta.touched && meta.error ? <div className="error">{meta.error}</div> : null}
 		</div>
 	);
 };

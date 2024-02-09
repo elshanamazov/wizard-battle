@@ -6,8 +6,23 @@ import useLocalStorage from '../../hooks/useLocalStorage';
 import { SelectedDuelistsId } from '../selectedDuelists';
 import styles from './AutoSelection.module.scss';
 
+const wizards = [
+	{ id: 1, name: 'Harry Potter' },
+	{ id: 2, name: 'Hermione Granger' },
+	{ id: 3, name: 'Ron Weasley' },
+	{ id: 4, name: 'Albus Dumbledore' },
+	{ id: 5, name: 'Severus Snape' },
+	{ id: 6, name: 'Voldemort' },
+	{ id: 7, name: 'Sirius Black' },
+	{ id: 8, name: 'Draco Malfoy' },
+	{ id: 9, name: 'Rubeus Hagrid' },
+	{ id: 10, name: 'Minerva McGonagall' },
+	{ id: 11, name: 'Bellatrix Lestrange' },
+	{ id: 12, name: 'Luna Lovegood' },
+];
+
 const AutoSelection = () => {
-	const [isOpen, setIsOpen] = useState(false);
+	const [isModalOpen, setModalIsOpen] = useState(false);
 	const [isSearching, setIsSearching] = useState(false);
 	const [leftOpponent, setLeftOpponent] = useState('Harry Potter');
 	const [rightOpponent, setRightOpponent] = useState('Voldemort');
@@ -19,31 +34,16 @@ const AutoSelection = () => {
 		},
 	);
 
-	const wizards = [
-		{ id: 1, name: 'Harry Potter' },
-		{ id: 2, name: 'Hermione Granger' },
-		{ id: 3, name: 'Ron Weasley' },
-		{ id: 4, name: 'Albus Dumbledore' },
-		{ id: 5, name: 'Severus Snape' },
-		{ id: 6, name: 'Voldemort' },
-		{ id: 7, name: 'Sirius Black' },
-		{ id: 8, name: 'Draco Malfoy' },
-		{ id: 9, name: 'Rubeus Hagrid' },
-		{ id: 10, name: 'Minerva McGonagall' },
-		{ id: 11, name: 'Bellatrix Lestrange' },
-		{ id: 12, name: 'Luna Lovegood' },
-	];
-
 	const getRandomWizard = () => {
-		const index = Math.floor(Math.random() * wizards.length);
-		return wizards[index];
+		const indexOfWizards = Math.floor(Math.random() * wizards.length);
+		return wizards[indexOfWizards];
 	};
 
 	const modalCloseHandler = () => {
-		setIsOpen(false);
+		setModalIsOpen(false);
 	};
 	const modalOpenHandler = () => {
-		setIsOpen(true);
+		setModalIsOpen(true);
 	};
 
 	const handleSearch = () => {
@@ -66,7 +66,7 @@ const AutoSelection = () => {
 		}, 5000);
 	};
 
-	useEffect(() => {
+	const updateDuelists = () => {
 		const findWizardById = (id: number) => wizards.find((wizard) => wizard.id === id);
 
 		if (selectedWizard.firstDuelistId == null || selectedWizard.secondDuelistId == null) return;
@@ -78,6 +78,10 @@ const AutoSelection = () => {
 			setLeftOpponent(leftWizard.name);
 			setRightOpponent(rightWizard.name);
 		}
+	};
+
+	useEffect(() => {
+		updateDuelists();
 	}, []);
 
 	return (
@@ -94,7 +98,7 @@ const AutoSelection = () => {
 					text="Do you confirm your choice of characters?"
 					textCustomClass={styles.auto__text}
 					onClose={modalCloseHandler}
-					isOpen={isOpen}>
+					isOpen={isModalOpen}>
 					<div className={`${styles.auto__cta} ${styles.auto__cta_modify}`}>
 						<Button label="Confirm" onClick={() => alert('The fight has begun')} />
 						<Button label="Cancel" onClick={modalCloseHandler} />
