@@ -9,6 +9,7 @@ type InputProps = {
 
 const Input = ({ label, name, placeholder }: InputProps) => {
 	const [field, meta] = useField(name);
+
 	return (
 		<div className={styles.input}>
 			<label className={styles.input__label}>

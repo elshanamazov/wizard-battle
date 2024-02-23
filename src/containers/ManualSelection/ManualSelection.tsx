@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../components/UI/Button/Button';
 import Modal from '../../components/UI/Modal/Modal';
 import Slider from '../../components/UI/Slider/Slider';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import { SelectedDuelistsId } from '../selectedDuelists';
+import { SelectedDuelists } from '../selectedDuelists';
 import styles from './ManualSelection.module.scss';
 
 const wizardsData = [
@@ -19,9 +20,10 @@ const ManualSelection = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [counter, setCounter] = useState(3);
 	const intervalRef = useRef<number | null>(null);
-	const [selectedWizards, setSelectedWizards] = useLocalStorage<SelectedDuelistsId>(
+	const navigate = useNavigate();
+	const [selectedWizards, setSelectedWizards] = useLocalStorage<SelectedDuelists>(
 		'manualSelectedState',
-		{ firstDuelistId: null, secondDuelistId: null },
+		{ firstDuelist: null, secondDuelist: null },
 	);
 
 	const wizardSlides = wizardsData.map((wizardSlide) => ({
@@ -41,13 +43,15 @@ const ManualSelection = () => {
 		}
 	};
 
-	const handleWizardSelect =
-		(position: 'firstDuelistId' | 'secondDuelistId') => (wizardId: number) => {
-			setSelectedWizards((prev) => ({
-				...prev,
-				[position]: wizardId,
-			}));
-		};
+	const handleWizardSelect = (position: 'firstDuelist' | 'secondDuelist') => (wizardId: number) => {
+		const wizardInfo = wizardsData.find((wizard) => wizard.id === wizardId);
+		if (!wizardInfo) return;
+
+		setSelectedWizards((prev) => ({
+			...prev,
+			[position]: { id: wizardInfo.id, name: wizardInfo.name },
+		}));
+	};
 
 	const startCounter = () => {
 		setCounter(3);
@@ -61,7 +65,7 @@ const ManualSelection = () => {
 			setCounter((countDown) => {
 				if (countDown === 0) {
 					clearInterval(intervalRef.current as number);
-					alert('The Fight Started!');
+
 					return countDown;
 				}
 				return countDown - 1;
@@ -69,24 +73,34 @@ const ManualSelection = () => {
 		}, 1000);
 	};
 
+	const getWizardIndexById = (wizardId: number | undefined) => {
+		return wizardsData.findIndex((wizard) => wizard.id === wizardId);
+	};
+
+	useEffect(() => {
+		localStorage.setItem('selectionMethod', 'manual');
+	}, []);
+
+	useEffect(() => {
+		if (counter === 0) {
+			navigate('/duel');
+		}
+	}, [counter, navigate]);
+
 	return (
 		<section className="pt-100">
 			<h2 className="title">Manual selection of opponents</h2>
 			<div className={styles.manual__wrapper}>
 				<Slider
 					slides={wizardSlides}
-					onSelect={handleWizardSelect('firstDuelistId')}
-					activeIndex={wizardsData.findIndex(
-						(wizard) => wizard.id === selectedWizards.firstDuelistId,
-					)}
+					onSelect={handleWizardSelect('firstDuelist')}
+					activeIndex={getWizardIndexById(selectedWizards.firstDuelist?.id)}
 				/>
 				<Button label="To Fight!" onClick={startCounter} />
 				<Slider
 					slides={wizardSlides}
-					onSelect={handleWizardSelect('secondDuelistId')}
-					activeIndex={wizardsData.findIndex(
-						(wizard) => wizard.id === selectedWizards.secondDuelistId,
-					)}
+					onSelect={handleWizardSelect('secondDuelist')}
+					activeIndex={getWizardIndexById(selectedWizards.secondDuelist?.id)}
 				/>
 			</div>
 			{isModalOpen && (

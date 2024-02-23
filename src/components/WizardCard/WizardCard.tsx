@@ -1,4 +1,4 @@
-import styles from "./WizardCard.module.scss";
+import styles from './WizardCard.module.scss';
 
 type WizardCardProps = {
 	name: string;
@@ -14,9 +14,7 @@ const WizardCard = ({ name, healthPoints, mannaPoints }: WizardCardProps) => {
 			<div className={styles.wizardCard__info}>
 				<h3 className={styles.wizardCard__name}>{name}</h3>
 				<span className={styles.wizardCard__bar}>{healthPoints}</span>
-				<span
-					className={`${styles.wizardCard__bar} ${styles.wizardCard__bar_blue}`}
-				>
+				<span className={`${styles.wizardCard__bar} ${styles.wizardCard__bar_blue}`}>
 					{mannaPoints}
 				</span>
 			</div>

@@ -10,7 +10,7 @@ import { feedbackFormSchema } from './validationSchema';
 type formProps = {
 	name: string;
 	email: string;
-	rating: number;
+	rating: string;
 	agreeToTerms: boolean;
 	comment?: string;
 	contact?: boolean;
@@ -19,7 +19,7 @@ type formProps = {
 const initialValues: formProps = {
 	name: '',
 	email: '',
-	rating: 0,
+	rating: '',
 	agreeToTerms: false,
 	comment: '',
 	contact: false,
@@ -40,7 +40,7 @@ const FeedbackForm = () => {
 					<Input label="Email*" name="email" placeholder="Type an email..." />
 					<Rating label="Rate the game*" name="rating" />
 					<Checkbox label="I agree to the processing of personal data*" name="agreeToTerms" />
-					{values.rating < 4 && values.rating > 0 && (
+					{+values.rating < 4 && +values.rating > 0 && (
 						<>
 							<Checkbox label="Contact me" name="contact" />
 							<p className="error">

@@ -1,0 +1,56 @@
+.duel {
+	&__wrap {
+		display: flex;
+		justify-content: space-between;
+		gap: 15px;
+	}
+
+	&__panel {
+		display: flex;
+		flex-direction: column;
+		gap: 25px;
+
+		&_disabled {
+			opacity: 0.5;
+			pointer-events: none;
+		}
+	}
+
+	&__header {
+		display: flex;
+		gap: 15px;
+
+		&_reverse {
+			flex-direction: row-reverse;
+		}
+	}
+
+	&__potions {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 5px;
+	}
+
+	&__spells {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: auto;
+		gap: 10px;
+		padding: 5px;
+		border-radius: 5px;
+		background: var(--c-dark-opacity);
+		max-width: 395px;
+		height: 195px;
+		overflow: auto;
+	}
+
+	&__points {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 5px;
+		font-size: 21px;
+		font-weight: 600;
+	}
+}
