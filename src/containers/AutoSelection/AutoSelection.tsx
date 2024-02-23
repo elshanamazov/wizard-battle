@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../components/UI/Button/Button';
 import Modal from '../../components/UI/Modal/Modal';
 import WizardCard from '../../components/WizardCard/WizardCard';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import { SelectedDuelistsId } from '../selectedDuelists';
+import { SelectedDuelists } from '../selectedDuelists';
 import styles from './AutoSelection.module.scss';
 
 const wizards = [
@@ -26,11 +27,12 @@ const AutoSelection = () => {
 	const [isSearching, setIsSearching] = useState(false);
 	const [leftOpponent, setLeftOpponent] = useState('Harry Potter');
 	const [rightOpponent, setRightOpponent] = useState('Voldemort');
-	const [selectedWizard, setSelectedWizard] = useLocalStorage<SelectedDuelistsId>(
+	const navigate = useNavigate();
+	const [selectedWizard, setSelectedWizard] = useLocalStorage<SelectedDuelists>(
 		'autoSelectedState',
 		{
-			firstDuelistId: null,
-			secondDuelistId: null,
+			firstDuelist: null,
+			secondDuelist: null,
 		},
 	);
 
@@ -55,8 +57,14 @@ const AutoSelection = () => {
 			setRightOpponent(rightWizard.name);
 
 			setSelectedWizard({
-				firstDuelistId: leftWizard.id,
-				secondDuelistId: rightWizard.id,
+				firstDuelist: {
+					id: leftWizard.id,
+					name: leftWizard.name,
+				},
+				secondDuelist: {
+					id: rightWizard.id,
+					name: rightWizard.name,
+				},
 			});
 		}, 1000);
 
@@ -69,15 +77,21 @@ const AutoSelection = () => {
 	const updateDuelists = () => {
 		const findWizardById = (id: number) => wizards.find((wizard) => wizard.id === id);
 
-		if (selectedWizard.firstDuelistId == null || selectedWizard.secondDuelistId == null) return;
+		if (selectedWizard.firstDuelist === null || selectedWizard.secondDuelist === null) return;
 
-		const leftWizard = findWizardById(selectedWizard.firstDuelistId);
-		const rightWizard = findWizardById(selectedWizard.secondDuelistId);
+		const leftWizard = findWizardById(selectedWizard.firstDuelist?.id);
+		const rightWizard = findWizardById(selectedWizard.secondDuelist?.id);
 
 		if (leftWizard && rightWizard) {
 			setLeftOpponent(leftWizard.name);
 			setRightOpponent(rightWizard.name);
 		}
+
+		localStorage.setItem('selectionMethod', 'auto');
+	};
+
+	const handleDuelSelectPage = () => {
+		navigate('/duel');
 	};
 
 	useEffect(() => {
@@ -100,7 +114,7 @@ const AutoSelection = () => {
 					onClose={modalCloseHandler}
 					isOpen={isModalOpen}>
 					<div className={`${styles.auto__cta} ${styles.auto__cta_modify}`}>
-						<Button label="Confirm" onClick={() => alert('The fight has begun')} />
+						<Button label="Confirm" onClick={handleDuelSelectPage} />
 						<Button label="Cancel" onClick={modalCloseHandler} />
 					</div>
 				</Modal>

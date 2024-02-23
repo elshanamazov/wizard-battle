@@ -1,0 +1,65 @@
+.duelCard {
+	border-radius: 5px;
+	padding: 10px;
+	background: var(--c-dark-opacity);
+
+	&__name {
+		margin: 0;
+		margin-bottom: 10px;
+		font-size: 14px;
+		color: var(--c-gold);
+
+		&_reverse {
+			text-align: end;
+		}
+	}
+
+	&__body {
+		display: flex;
+		justify-content: space-between;
+		gap: 5px;
+
+		&_reverse {
+			flex-direction: row-reverse;
+		}
+	}
+
+	&__bars {
+		display: flex;
+		gap: 2px;
+	}
+
+	&__bar {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 5px;
+		width: 30px;
+	}
+
+	&__text {
+		display: inline-block;
+		transform: rotate(90deg);
+		color: var(--c-light);
+	}
+
+	&__health {
+		background: var(--c-red);
+	}
+
+	&__mana {
+		background: var(--c-blue);
+	}
+
+	&__pic {
+		width: 250px;
+		height: 325px;
+		border-radius: 5px;
+		overflow: hidden;
+		background: var(--c-grey);
+
+		&__img {
+			height: 100%;
+		}
+	}
+}

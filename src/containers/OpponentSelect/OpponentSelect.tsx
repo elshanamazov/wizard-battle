@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/UI/Button/Button';
-import FeedbackForm from '../../components/UI/FeedbackForm/FeedbackForm';
 import styles from './OpponentSelect.module.scss';
 const OpponentSelect = () => {
 	const navigate = useNavigate();
@@ -19,10 +18,6 @@ const OpponentSelect = () => {
 			<div className={styles.cta}>
 				<Button label="Manual Selection" onClick={handleManualSelect} />
 				<Button label="Automatic Selection" onClick={handleAutoSelect} />
-			</div>
-
-			<div className={styles.div}>
-				<FeedbackForm />
 			</div>
 		</section>
 	);
