@@ -1,4 +1,4 @@
 export type SelectedDuelists = {
-	firstDuelist: { id: number; name: string } | null;
-	secondDuelist: { id: number; name: string } | null;
+	firstDuelist: { id: number; name: string };
+	secondDuelist: { id: number; name: string };
 };

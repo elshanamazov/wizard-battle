@@ -11,7 +11,7 @@ const Rating = ({ name, label }: RatingProps) => {
 	const [field, meta, helpers] = useField(name);
 	const [hoverRating, setHoverRating] = useState<number | undefined>(undefined);
 
-	const handleRatingChange = (newRating: number) => {
+	const handleRatingChange = (newRating: number): void => {
 		helpers.setValue(newRating);
 	};
 

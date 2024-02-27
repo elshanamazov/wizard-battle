@@ -1,14 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/UI/Button/Button';
 import styles from './OpponentSelect.module.scss';
+
 const OpponentSelect = () => {
 	const navigate = useNavigate();
 
-	const handleManualSelect = () => {
+	const handleManualSelect = (): void => {
 		navigate('/duel-setting/manual');
 	};
 
-	const handleAutoSelect = () => {
+	const handleAutoSelect = (): void => {
 		navigate('/duel-setting/auto');
 	};
 

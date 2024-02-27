@@ -23,16 +23,16 @@ const wizards = [
 ];
 
 const AutoSelection = () => {
-	const [isModalOpen, setModalIsOpen] = useState(false);
-	const [isSearching, setIsSearching] = useState(false);
-	const [leftOpponent, setLeftOpponent] = useState('Harry Potter');
-	const [rightOpponent, setRightOpponent] = useState('Voldemort');
+	const [isModalOpen, setModalIsOpen] = useState<boolean>(false);
+	const [isSearching, setIsSearching] = useState<boolean>(false);
+	const [leftOpponent, setLeftOpponent] = useState<string>('Harry Potter');
+	const [rightOpponent, setRightOpponent] = useState<string>('Voldemort');
 	const navigate = useNavigate();
 	const [selectedWizard, setSelectedWizard] = useLocalStorage<SelectedDuelists>(
 		'autoSelectedState',
 		{
-			firstDuelist: null,
-			secondDuelist: null,
+			firstDuelist: { id: 1, name: '' },
+			secondDuelist: { id: 1, name: '' },
 		},
 	);
 
@@ -41,14 +41,14 @@ const AutoSelection = () => {
 		return wizards[indexOfWizards];
 	};
 
-	const modalCloseHandler = () => {
+	const modalCloseHandler = (): void => {
 		setModalIsOpen(false);
 	};
-	const modalOpenHandler = () => {
+	const modalOpenHandler = (): void => {
 		setModalIsOpen(true);
 	};
 
-	const handleSearch = () => {
+	const handleSearch = (): void => {
 		setIsSearching(true);
 		const searchInterval = setInterval(() => {
 			const leftWizard = getRandomWizard();
@@ -74,13 +74,11 @@ const AutoSelection = () => {
 		}, 5000);
 	};
 
-	const updateDuelists = () => {
+	const updateDuelists = (): void => {
 		const findWizardById = (id: number) => wizards.find((wizard) => wizard.id === id);
 
-		if (selectedWizard.firstDuelist === null || selectedWizard.secondDuelist === null) return;
-
-		const leftWizard = findWizardById(selectedWizard.firstDuelist?.id);
-		const rightWizard = findWizardById(selectedWizard.secondDuelist?.id);
+		const leftWizard = findWizardById(selectedWizard.firstDuelist.id);
+		const rightWizard = findWizardById(selectedWizard.secondDuelist.id);
 
 		if (leftWizard && rightWizard) {
 			setLeftOpponent(leftWizard.name);
@@ -90,7 +88,7 @@ const AutoSelection = () => {
 		localStorage.setItem('selectionMethod', 'auto');
 	};
 
-	const handleDuelSelectPage = () => {
+	const handleDuelSelectPage = (): void => {
 		navigate('/duel');
 	};
 

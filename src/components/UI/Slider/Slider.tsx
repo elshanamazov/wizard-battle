@@ -14,7 +14,7 @@ type SliderProps = {
 const Slider = ({ slides, onSelect, activeIndex = 0 }: SliderProps) => {
 	const [currentIndex, setCurrentIndex] = useState(activeIndex || 0);
 
-	const navigate = (direction: 'next' | 'prev') => {
+	const navigate = (direction: 'next' | 'prev'): void => {
 		setCurrentIndex((prevIndex) => {
 			let newIndex = direction === 'next' ? prevIndex + 1 : prevIndex - 1;
 
@@ -29,13 +29,13 @@ const Slider = ({ slides, onSelect, activeIndex = 0 }: SliderProps) => {
 		});
 	};
 
-	useEffect(() => {
+	useEffect((): void => {
 		if (activeIndex !== null && activeIndex >= 0 && activeIndex < slides.length) {
 			setCurrentIndex(activeIndex);
 		}
 	}, [activeIndex, slides.length]);
 
-	const getSlideIndex = (index: number) => {
+	const getSlideIndex = (index: number): number => {
 		return (index + slides.length) % slides.length;
 	};
 
