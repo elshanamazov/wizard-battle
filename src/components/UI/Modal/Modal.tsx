@@ -12,7 +12,7 @@ type ModalProps = {
 };
 
 const Modal = ({ text, onClose, children, isOpen, textCustomClass }: ModalProps) => {
-	const textClickHandler = (event: React.MouseEvent<HTMLParagraphElement>) => {
+	const textClickHandler = (event: React.MouseEvent<HTMLParagraphElement>): void => {
 		event.stopPropagation();
 	};
 

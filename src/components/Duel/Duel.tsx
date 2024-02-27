@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { SelectedDuelists } from '../../containers/selectedDuelists';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import Modal from '../UI/Modal/Modal';
 import styles from './Duel.module.scss';
@@ -7,19 +8,19 @@ import DuelPotion from './DuelPotion/DuelPotion';
 import DuelSpell from './DuelSpell/DuelSpell';
 
 const Duel = () => {
-	const selectionMethod = localStorage.getItem('selectionMethod');
-	const [selectedWizards] = useLocalStorage(
+	const selectionMethod: string | null = localStorage.getItem('selectionMethod');
+	const [selectedWizards] = useLocalStorage<SelectedDuelists>(
 		`${selectionMethod === 'auto' ? 'autoSelectedState' : 'manualSelectedState'}`,
 		{
-			firstDuelist: { id: null, name: '' },
-			secondDuelist: { id: null, name: '' },
+			firstDuelist: { id: 1, name: '' },
+			secondDuelist: { id: 1, name: '' },
 		},
 	);
-	const [isModalOpen, setIsModalOpen] = useState(true);
-	const [activePlayerId, setActivePlayerId] = useState(null);
-	const [modalText, setModalText] = useState('');
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
+	const [activePlayerId, setActivePlayerId] = useState<number | undefined>(1);
+	const [modalText, setModalText] = useState<string>('');
 
-	useEffect(() => {
+	useEffect((): void => {
 		const activeWizardId =
 			Math.random() < 0.5 ? selectedWizards.firstDuelist?.id : selectedWizards.secondDuelist?.id;
 		setActivePlayerId(activeWizardId);
@@ -34,7 +35,7 @@ const Duel = () => {
 		);
 	}, [selectedWizards]);
 
-	const modalHandler = () => {
+	const modalHandler = (): void => {
 		setIsModalOpen(!isModalOpen);
 	};
 

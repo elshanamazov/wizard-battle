@@ -11,7 +11,7 @@ const useLocalStorage = <T>(key: string, initialValue: T): [T, Dispatch<SetState
 		}
 	});
 
-	useEffect(() => {
+	useEffect((): void => {
 		try {
 			const dataStore = JSON.stringify(storedValue);
 			localStorage.setItem(key, dataStore);
