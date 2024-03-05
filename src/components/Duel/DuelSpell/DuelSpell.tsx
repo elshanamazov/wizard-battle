@@ -1,5 +1,5 @@
-import magicWand from '../../../assets/magic-wand.png';
-import spellCost from '../../../assets/spell-cost.png';
+import magicWand from '../../../assets/icons/magic-wand.png';
+import spellCost from '../../../assets/icons/spell-cost.png';
 import styles from './DuelSpell.module.scss';
 
 type spellProps = {

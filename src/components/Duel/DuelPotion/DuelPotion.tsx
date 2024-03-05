@@ -1,4 +1,4 @@
-import healthPotion from '../../../assets/health-potion.png';
+import healthPotion from '../../../assets/icons/health-potion.png';
 import styles from './DuelPotion.module.scss';
 
 const DuelPotion = () => {

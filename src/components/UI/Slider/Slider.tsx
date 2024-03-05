@@ -4,10 +4,10 @@ import styles from './Slider.module.scss';
 
 type SliderProps = {
 	slides: {
-		id: number;
+		id: string;
 		content: JSX.Element | string;
 	}[];
-	onSelect?: (id: number) => void;
+	onSelect?: (id: string) => void;
 	activeIndex?: number | null;
 };
 
@@ -73,9 +73,9 @@ const Slider = ({ slides, onSelect, activeIndex = 0 }: SliderProps) => {
 			<div className={styles.slider__slides}>
 				{displaySlides.map((slide, index) => (
 					<div
-						key={slide.id}
+						key={slide?.id || index}
 						className={`${styles.slider__slide} ${index === 1 ? styles.slider__slide_active : ''}`}>
-						{slide.content}
+						{slide?.content}
 					</div>
 				))}
 			</div>

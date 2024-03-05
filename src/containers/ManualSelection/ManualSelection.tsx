@@ -4,37 +4,33 @@ import Button from '../../components/UI/Button/Button';
 import Modal from '../../components/UI/Modal/Modal';
 import Slider from '../../components/UI/Slider/Slider';
 import useLocalStorage from '../../hooks/useLocalStorage';
+import { WizardsResponseType, getWizards } from '../../services/wizardsService';
 import { SelectedDuelists } from '../selectedDuelists';
 import styles from './ManualSelection.module.scss';
-
-const wizardsData = [
-	{ id: 1, name: 'Hermione Granger', imagePath: '/wizard-battle/pic_1.jpeg' },
-	{ id: 2, name: 'Draco Malfoy', imagePath: '/wizard-battle/pic_2.jpeg' },
-	{ id: 3, name: 'Harry Potter', imagePath: '/wizard-battle/pic_3.jpeg' },
-	{ id: 4, name: 'Death Eater', imagePath: '/wizard-battle/pic_4.jpeg' },
-	{ id: 5, name: 'Dumbledore', imagePath: '/wizard-battle/pic_5.jpeg' },
-	{ id: 6, name: 'Hagrid', imagePath: '/wizard-battle/pic_6.jpeg' },
-];
 
 const ManualSelection = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [counter, setCounter] = useState<number>(3);
 	const intervalRef = useRef<number | null>(null);
 	const navigate = useNavigate();
-	const [selectedWizards, setSelectedWizards] = useLocalStorage<SelectedDuelists>(
+	const [wizardsData, setWizardsData] = useState<WizardsResponseType[]>([]);
+	const [selectedWizards, setSelectedWizards] = useLocalStorage<SelectedDuelists | null>(
 		'manualSelectedState',
-		{
-			firstDuelist: { id: 1, name: '' },
-			secondDuelist: { id: 1, name: '' },
-		},
+		null,
 	);
 
-	const wizardSlides = wizardsData.map((wizardSlide) => ({
+	const wizardSlides = wizardsData?.map((wizardSlide: WizardsResponseType) => ({
 		id: wizardSlide.id,
 		content: (
 			<>
-				<img className={styles.manual__img} src={wizardSlide.imagePath} alt={wizardSlide.name} />
-				<h3 className={styles.manual__label}>{wizardSlide.name}</h3>
+				<img
+					className={styles.manual__img}
+					src={wizardSlide.imagePath}
+					alt={wizardSlide.firstName}
+				/>
+				<h3 className={styles.manual__label}>
+					{wizardSlide.firstName} {wizardSlide.lastName}
+				</h3>
 			</>
 		),
 	}));
@@ -46,17 +42,15 @@ const ManualSelection = () => {
 		}
 	};
 
-	const handleWizardSelect =
-		(position: 'firstDuelist' | 'secondDuelist') =>
-		(wizardId: number): void => {
-			const wizardInfo = wizardsData.find((wizard) => wizard.id === wizardId);
-			if (!wizardInfo) return;
+	const handleWizardSelect = (position: 'firstDuelist' | 'secondDuelist') => (wizardId: string) => {
+		const wizardInfo = wizardsData.find((wizard) => wizard.id === wizardId);
+		if (!wizardInfo) return;
 
-			setSelectedWizards((prev) => ({
-				...prev,
-				[position]: { id: wizardInfo.id, name: wizardInfo.name },
-			}));
-		};
+		setSelectedWizards((prev) => ({
+			...(prev ?? { firstDuelist: null, secondDuelist: null }),
+			[position]: { id: wizardInfo.id, name: wizardInfo.firstName },
+		}));
+	};
 
 	const startCounter = (): void => {
 		setCounter(3);
@@ -78,7 +72,7 @@ const ManualSelection = () => {
 		}, 1000);
 	};
 
-	const getWizardIndexById = (wizardId: number | undefined): number => {
+	const getWizardIndexById = (wizardId: string | undefined): number => {
 		return wizardsData.findIndex((wizard) => wizard.id === wizardId);
 	};
 
@@ -92,6 +86,29 @@ const ManualSelection = () => {
 		}
 	}, [counter, navigate]);
 
+	useEffect((): void => {
+		const wizards = async () => {
+			try {
+				const wizardsData = await getWizards();
+				setWizardsData(wizardsData);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+
+		wizards();
+	}, []);
+
+	useEffect(() => {
+		if (wizardsData.length > 0) {
+			setSelectedWizards({
+				firstDuelist: { id: wizardsData[0].id, name: wizardsData[0].firstName },
+				secondDuelist: { id: wizardsData[1]?.id, name: wizardsData[1]?.firstName },
+			});
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [wizardsData]);
+
 	return (
 		<section className="pt-100">
 			<h2 className="title">Manual selection of opponents</h2>
@@ -99,13 +116,13 @@ const ManualSelection = () => {
 				<Slider
 					slides={wizardSlides}
 					onSelect={handleWizardSelect('firstDuelist')}
-					activeIndex={getWizardIndexById(selectedWizards.firstDuelist.id)}
+					activeIndex={getWizardIndexById(selectedWizards?.firstDuelist?.id)}
 				/>
 				<Button label="To Fight!" onClick={startCounter} />
 				<Slider
 					slides={wizardSlides}
 					onSelect={handleWizardSelect('secondDuelist')}
-					activeIndex={getWizardIndexById(selectedWizards.secondDuelist.id)}
+					activeIndex={getWizardIndexById(selectedWizards?.secondDuelist?.id)}
 				/>
 			</div>
 			{isModalOpen && (
