@@ -5,7 +5,7 @@ import styles from './DuelSpell.module.scss';
 type spellProps = {
 	name: string;
 	damage: number;
-	manaCost: string;
+	manaCost: number;
 };
 
 const DuelSpell = ({ name, damage, manaCost }: spellProps) => {

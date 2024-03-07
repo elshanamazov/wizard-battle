@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { SelectedDuelists } from '../../containers/selectedDuelists';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import useWizardsData from '../../hooks/useWizardsData';
+import { SpellsResponseType, getSpells } from '../../services/spellsServices';
 import Modal from '../UI/Modal/Modal';
 import styles from './Duel.module.scss';
 import DuelCard from './DuelCard/DuelCard';
@@ -15,6 +16,7 @@ const Duel = () => {
 		null,
 	);
 	const { findWizardById } = useWizardsData();
+	const [spells, setSpells] = useState<SpellsResponseType[]>([]);
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
 	const [activePlayerId, setActivePlayerId] = useState<string | undefined>('');
 	const [modalText, setModalText] = useState<string>('');
@@ -28,6 +30,10 @@ const Duel = () => {
 
 	const modalHandler = (): void => {
 		setIsModalOpen(!isModalOpen);
+	};
+
+	const getRandomInt = (min: number, max: number): number => {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
 	};
 
 	useEffect((): void => {
@@ -44,6 +50,19 @@ const Duel = () => {
 			`At the beginning of the duel, it is randomly determined that ${activeWizardName} will go first.`,
 		);
 	}, [selectedWizards, firstWizardDetails, secondWizardDetails]);
+
+	useEffect((): void => {
+		const loadSpells = async () => {
+			try {
+				const spellsData = await getSpells();
+				setSpells(spellsData);
+			} catch (error) {
+				console.error('Failed to fetch spells', error);
+			}
+		};
+
+		loadSpells();
+	}, []);
 
 	return (
 		<>
@@ -69,10 +88,14 @@ const Duel = () => {
 							/>
 						</div>
 						<div className={styles.duel__spells}>
-							<DuelSpell name="False memory spell" damage={33} manaCost="22" />
-							<DuelSpell name="Shield penetration spell" damage={33} manaCost="22" />
-							<DuelSpell name="Shooting spell" damage={33} manaCost="22" />
-							<DuelSpell name="Engorgio Skullus" damage={33} manaCost="22" />
+							{spells.map((spell) => (
+								<DuelSpell
+									key={spell.id}
+									name={spell.name}
+									damage={getRandomInt(20, 50)}
+									manaCost={getRandomInt(10, 30)}
+								/>
+							))}
 						</div>
 					</div>
 					<div className={styles.duel__points}>
@@ -97,10 +120,14 @@ const Duel = () => {
 							/>
 						</div>
 						<div className={styles.duel__spells}>
-							<DuelSpell name="False memory spell" damage={33} manaCost="22" />
-							<DuelSpell name="Shield penetration spell" damage={33} manaCost="22" />
-							<DuelSpell name="Shooting spell" damage={33} manaCost="22" />
-							<DuelSpell name="Engorgio Skullus" damage={33} manaCost="22" />
+							{spells.map((spell) => (
+								<DuelSpell
+									key={spell.id}
+									name={spell.name}
+									damage={getRandomInt(20, 50)}
+									manaCost={getRandomInt(10, 30)}
+								/>
+							))}
 						</div>
 					</div>
 				</div>

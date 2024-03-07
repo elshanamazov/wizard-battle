@@ -1,23 +1,25 @@
 import apiClient from './apiService';
 
-type Spells = {
+export type SpellsResponseType = {
 	id: string;
 	effect: string;
 	name: string;
 	type: string;
+	incantation: string;
 };
 
-export const getSpells = async (): Promise<Spells[]> => {
+export const getSpells = async (): Promise<SpellsResponseType[]> => {
 	const response = await apiClient.get('/spells');
-	const spellsTypeWillBeUsed = ['DarkCharm', 'Curse', 'CounterSpell'];
+	const spellsTypeWillBeUsed = ['Curse', 'CounterSpell'];
 
 	const filteredResponseData = response.data
-		.filter((spell: Spells) => spellsTypeWillBeUsed.includes(spell.type))
-		.map((spell: Spells) => ({
+		.filter((spell: SpellsResponseType) => spellsTypeWillBeUsed.includes(spell.type))
+		.map((spell: SpellsResponseType) => ({
 			id: spell.id,
 			effect: spell.effect,
 			name: spell.name,
 			type: spell.type,
+			incantation: spell.incantation,
 		}));
 
 	return filteredResponseData;
