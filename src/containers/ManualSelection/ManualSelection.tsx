@@ -4,7 +4,7 @@ import Button from '../../components/UI/Button/Button';
 import Modal from '../../components/UI/Modal/Modal';
 import Slider from '../../components/UI/Slider/Slider';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import { WizardsResponseType, getWizards } from '../../services/wizardsService';
+import useWizardsData from '../../hooks/useWizardsData';
 import { SelectedDuelists } from '../selectedDuelists';
 import styles from './ManualSelection.module.scss';
 
@@ -13,13 +13,13 @@ const ManualSelection = () => {
 	const [counter, setCounter] = useState<number>(3);
 	const intervalRef = useRef<number | null>(null);
 	const navigate = useNavigate();
-	const [wizardsData, setWizardsData] = useState<WizardsResponseType[]>([]);
+	const { wizardsData, findWizardById } = useWizardsData();
 	const [selectedWizards, setSelectedWizards] = useLocalStorage<SelectedDuelists | null>(
 		'manualSelectedState',
 		null,
 	);
 
-	const wizardSlides = wizardsData?.map((wizardSlide: WizardsResponseType) => ({
+	const wizardSlides = wizardsData?.map((wizardSlide) => ({
 		id: wizardSlide.id,
 		content: (
 			<>
@@ -43,12 +43,12 @@ const ManualSelection = () => {
 	};
 
 	const handleWizardSelect = (position: 'firstDuelist' | 'secondDuelist') => (wizardId: string) => {
-		const wizardInfo = wizardsData.find((wizard) => wizard.id === wizardId);
+		const wizardInfo = findWizardById(wizardId);
 		if (!wizardInfo) return;
 
 		setSelectedWizards((prev) => ({
 			...(prev ?? { firstDuelist: null, secondDuelist: null }),
-			[position]: { id: wizardInfo.id, name: wizardInfo.firstName },
+			[position]: { id: wizardInfo.id, name: `${wizardInfo.firstName} ${wizardInfo.lastName}` },
 		}));
 	};
 
@@ -85,19 +85,6 @@ const ManualSelection = () => {
 			navigate('/duel');
 		}
 	}, [counter, navigate]);
-
-	useEffect((): void => {
-		const wizards = async () => {
-			try {
-				const wizardsData = await getWizards();
-				setWizardsData(wizardsData);
-			} catch (error) {
-				console.log(error);
-			}
-		};
-
-		wizards();
-	}, []);
 
 	return (
 		<section className="pt-100">

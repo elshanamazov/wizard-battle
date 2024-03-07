@@ -1,13 +1,14 @@
 import styles from './DuelCard.module.scss';
 
 type DuelCardProps = {
-	name: string;
+	name: string | undefined;
 	health: number;
 	mana: number;
+	imagePath?: string;
 	reverse?: boolean;
 };
 
-const DuelCard = ({ name, health, mana, reverse = false }: DuelCardProps) => {
+const DuelCard = ({ name, health, mana, reverse = false, imagePath }: DuelCardProps) => {
 	return (
 		<div className={styles.duelCard}>
 			<h3 className={`${styles.duelCard__name} ${reverse ? styles.duelCard__name_reverse : ''}`}>
@@ -23,7 +24,7 @@ const DuelCard = ({ name, health, mana, reverse = false }: DuelCardProps) => {
 					</div>
 				</div>
 				<div className={styles.duelCard__pic}>
-					<img className={styles.duelCard__pic__img} src="./pic_1.jpeg" alt="" />
+					<img className={styles.duelCard__pic__img} src={imagePath} alt="" />
 				</div>
 			</div>
 		</div>

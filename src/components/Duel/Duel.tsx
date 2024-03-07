@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { SelectedDuelists } from '../../containers/selectedDuelists';
 import useLocalStorage from '../../hooks/useLocalStorage';
+import useWizardsData from '../../hooks/useWizardsData';
 import Modal from '../UI/Modal/Modal';
 import styles from './Duel.module.scss';
 import DuelCard from './DuelCard/DuelCard';
@@ -9,35 +10,40 @@ import DuelSpell from './DuelSpell/DuelSpell';
 
 const Duel = () => {
 	const selectionMethod: string | null = localStorage.getItem('selectionMethod');
-	const [selectedWizards] = useLocalStorage<SelectedDuelists>(
+	const [selectedWizards] = useLocalStorage<SelectedDuelists | null>(
 		`${selectionMethod === 'auto' ? 'autoSelectedState' : 'manualSelectedState'}`,
-		{
-			firstDuelist: { id: 1, name: '' },
-			secondDuelist: { id: 1, name: '' },
-		},
+		null,
 	);
+	const { findWizardById } = useWizardsData();
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
-	const [activePlayerId, setActivePlayerId] = useState<number | undefined>(1);
+	const [activePlayerId, setActivePlayerId] = useState<string | undefined>('');
 	const [modalText, setModalText] = useState<string>('');
 
-	useEffect((): void => {
-		const activeWizardId =
-			Math.random() < 0.5 ? selectedWizards.firstDuelist?.id : selectedWizards.secondDuelist?.id;
-		setActivePlayerId(activeWizardId);
-
-		const activeWizardName =
-			activeWizardId === selectedWizards.firstDuelist?.id
-				? selectedWizards.firstDuelist?.name
-				: selectedWizards.secondDuelist?.name;
-
-		setModalText(
-			`At the beginning of the duel, it is randomly determined that ${activeWizardName} will go first.`,
-		);
-	}, [selectedWizards]);
+	const firstWizardDetails = selectedWizards?.firstDuelist
+		? findWizardById(selectedWizards.firstDuelist.id)
+		: null;
+	const secondWizardDetails = selectedWizards?.secondDuelist
+		? findWizardById(selectedWizards.secondDuelist.id)
+		: null;
 
 	const modalHandler = (): void => {
 		setIsModalOpen(!isModalOpen);
 	};
+
+	useEffect((): void => {
+		const activeWizardId =
+			Math.random() < 0.5 ? selectedWizards?.firstDuelist?.id : selectedWizards?.secondDuelist?.id;
+		setActivePlayerId(activeWizardId);
+
+		const activeWizardName =
+			activeWizardId === selectedWizards?.firstDuelist?.id
+				? selectedWizards?.firstDuelist?.name
+				: selectedWizards?.secondDuelist?.name;
+
+		setModalText(
+			`At the beginning of the duel, it is randomly determined that ${activeWizardName} will go first.`,
+		);
+	}, [selectedWizards, firstWizardDetails, secondWizardDetails]);
 
 	return (
 		<>
@@ -47,21 +53,26 @@ const Duel = () => {
 				<div className={styles.duel__wrap}>
 					<div
 						className={`${styles.duel__panel} ${
-							activePlayerId === selectedWizards.firstDuelist?.id ? '' : styles.duel__panel_disabled
+							activePlayerId === selectedWizards?.firstDuelist?.id
+								? ''
+								: styles.duel__panel_disabled
 						}`}>
 						<div className={styles.duel__header}>
 							<div className={styles.duel__potions}>
 								<DuelPotion />
 							</div>
-							<DuelCard name={selectedWizards.firstDuelist?.name} health={100} mana={100} />
+							<DuelCard
+								name={selectedWizards?.firstDuelist?.name}
+								health={100}
+								mana={100}
+								imagePath={firstWizardDetails?.imagePath}
+							/>
 						</div>
 						<div className={styles.duel__spells}>
 							<DuelSpell name="False memory spell" damage={33} manaCost="22" />
 							<DuelSpell name="Shield penetration spell" damage={33} manaCost="22" />
 							<DuelSpell name="Shooting spell" damage={33} manaCost="22" />
 							<DuelSpell name="Engorgio Skullus" damage={33} manaCost="22" />
-							<DuelSpell name="Disintegration spell" damage={33} manaCost="22" />
-							<DuelSpell name="Tail-growing spell" damage={33} manaCost="22" />
 						</div>
 					</div>
 					<div className={styles.duel__points}>
@@ -69,7 +80,7 @@ const Duel = () => {
 					</div>
 					<div
 						className={`${styles.duel__panel} ${
-							activePlayerId === selectedWizards.secondDuelist?.id
+							activePlayerId === selectedWizards?.secondDuelist?.id
 								? ''
 								: styles.duel__panel_disabled
 						}`}>
@@ -78,10 +89,11 @@ const Duel = () => {
 								<DuelPotion />
 							</div>
 							<DuelCard
-								name={selectedWizards.secondDuelist?.name}
+								name={selectedWizards?.secondDuelist?.name}
 								health={100}
 								mana={100}
 								reverse={true}
+								imagePath={secondWizardDetails?.imagePath}
 							/>
 						</div>
 						<div className={styles.duel__spells}>
@@ -89,8 +101,6 @@ const Duel = () => {
 							<DuelSpell name="Shield penetration spell" damage={33} manaCost="22" />
 							<DuelSpell name="Shooting spell" damage={33} manaCost="22" />
 							<DuelSpell name="Engorgio Skullus" damage={33} manaCost="22" />
-							<DuelSpell name="Disintegration spell" damage={33} manaCost="22" />
-							<DuelSpell name="Tail-growing spell" damage={33} manaCost="22" />
 						</div>
 					</div>
 				</div>

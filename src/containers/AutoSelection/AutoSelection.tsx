@@ -4,24 +4,26 @@ import Button from '../../components/UI/Button/Button';
 import Modal from '../../components/UI/Modal/Modal';
 import WizardCard from '../../components/WizardCard/WizardCard';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import { WizardsResponseType, getWizards } from '../../services/wizardsService';
+import useWizardsData from '../../hooks/useWizardsData';
 import { SelectedDuelists } from '../selectedDuelists';
 import styles from './AutoSelection.module.scss';
 
 const AutoSelection = () => {
 	const [isModalOpen, setModalIsOpen] = useState<boolean>(false);
 	const [isSearching, setIsSearching] = useState<boolean>(false);
+	const { wizardsData, findWizardById } = useWizardsData();
 	const navigate = useNavigate();
-	const [wizardsData, setWizardsData] = useState<WizardsResponseType[]>([]);
 	const [selectedWizards, setSelectedWizards] = useLocalStorage<SelectedDuelists | null>(
 		'autoSelectedState',
 		null,
 	);
 
-	const findWizardById = (id: string | undefined) => wizardsData.find((wizard) => wizard.id === id);
-
-	const leftWizardDetails = findWizardById(selectedWizards?.firstDuelist?.id);
-	const rightWizardDetails = findWizardById(selectedWizards?.secondDuelist?.id);
+	const leftWizardDetails = selectedWizards?.firstDuelist
+		? findWizardById(selectedWizards.firstDuelist.id)
+		: null;
+	const rightWizardDetails = selectedWizards?.secondDuelist
+		? findWizardById(selectedWizards.secondDuelist.id)
+		: null;
 
 	const modalCloseHandler = (): void => {
 		setModalIsOpen(false);
@@ -64,16 +66,7 @@ const AutoSelection = () => {
 	};
 
 	useEffect((): void => {
-		const wizards = async () => {
-			try {
-				const wizardsData = await getWizards();
-				setWizardsData(wizardsData);
-			} catch (error) {
-				console.log(error);
-			}
-		};
-
-		wizards();
+		localStorage.setItem('selectionMethod', 'auto');
 	}, []);
 
 	return (
