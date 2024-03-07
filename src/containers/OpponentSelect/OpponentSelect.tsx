@@ -4,7 +4,6 @@ import styles from './OpponentSelect.module.scss';
 
 const OpponentSelect = () => {
 	const navigate = useNavigate();
-
 	const handleManualSelect = (): void => {
 		navigate('/duel-setting/manual');
 	};

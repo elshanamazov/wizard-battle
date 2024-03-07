@@ -4,42 +4,26 @@ import Button from '../../components/UI/Button/Button';
 import Modal from '../../components/UI/Modal/Modal';
 import WizardCard from '../../components/WizardCard/WizardCard';
 import useLocalStorage from '../../hooks/useLocalStorage';
+import useWizardsData from '../../hooks/useWizardsData';
 import { SelectedDuelists } from '../selectedDuelists';
 import styles from './AutoSelection.module.scss';
-
-const wizards = [
-	{ id: 1, name: 'Harry Potter' },
-	{ id: 2, name: 'Hermione Granger' },
-	{ id: 3, name: 'Ron Weasley' },
-	{ id: 4, name: 'Albus Dumbledore' },
-	{ id: 5, name: 'Severus Snape' },
-	{ id: 6, name: 'Voldemort' },
-	{ id: 7, name: 'Sirius Black' },
-	{ id: 8, name: 'Draco Malfoy' },
-	{ id: 9, name: 'Rubeus Hagrid' },
-	{ id: 10, name: 'Minerva McGonagall' },
-	{ id: 11, name: 'Bellatrix Lestrange' },
-	{ id: 12, name: 'Luna Lovegood' },
-];
 
 const AutoSelection = () => {
 	const [isModalOpen, setModalIsOpen] = useState<boolean>(false);
 	const [isSearching, setIsSearching] = useState<boolean>(false);
-	const [leftOpponent, setLeftOpponent] = useState<string>('Harry Potter');
-	const [rightOpponent, setRightOpponent] = useState<string>('Voldemort');
+	const { wizardsData, findWizardById } = useWizardsData();
 	const navigate = useNavigate();
-	const [selectedWizard, setSelectedWizard] = useLocalStorage<SelectedDuelists>(
+	const [selectedWizards, setSelectedWizards] = useLocalStorage<SelectedDuelists | null>(
 		'autoSelectedState',
-		{
-			firstDuelist: { id: 1, name: '' },
-			secondDuelist: { id: 1, name: '' },
-		},
+		null,
 	);
 
-	const getRandomWizard = () => {
-		const indexOfWizards = Math.floor(Math.random() * wizards.length);
-		return wizards[indexOfWizards];
-	};
+	const leftWizardDetails = selectedWizards?.firstDuelist
+		? findWizardById(selectedWizards.firstDuelist.id)
+		: null;
+	const rightWizardDetails = selectedWizards?.secondDuelist
+		? findWizardById(selectedWizards.secondDuelist.id)
+		: null;
 
 	const modalCloseHandler = (): void => {
 		setModalIsOpen(false);
@@ -48,22 +32,25 @@ const AutoSelection = () => {
 		setModalIsOpen(true);
 	};
 
+	const getRandomWizard = () => {
+		const indexOfWizards = Math.floor(Math.random() * wizardsData.length);
+		return wizardsData[indexOfWizards];
+	};
+
 	const handleSearch = (): void => {
 		setIsSearching(true);
 		const searchInterval = setInterval(() => {
 			const leftWizard = getRandomWizard();
 			const rightWizard = getRandomWizard();
-			setLeftOpponent(leftWizard.name);
-			setRightOpponent(rightWizard.name);
 
-			setSelectedWizard({
+			setSelectedWizards({
 				firstDuelist: {
 					id: leftWizard.id,
-					name: leftWizard.name,
+					name: `${leftWizard.firstName} ${leftWizard.lastName}`,
 				},
 				secondDuelist: {
 					id: rightWizard.id,
-					name: rightWizard.name,
+					name: `${rightWizard.firstName} ${rightWizard.lastName}`,
 				},
 			});
 		}, 1000);
@@ -74,38 +61,34 @@ const AutoSelection = () => {
 		}, 5000);
 	};
 
-	const updateDuelists = (): void => {
-		const findWizardById = (id: number) => wizards.find((wizard) => wizard.id === id);
-
-		const leftWizard = findWizardById(selectedWizard.firstDuelist.id);
-		const rightWizard = findWizardById(selectedWizard.secondDuelist.id);
-
-		if (leftWizard && rightWizard) {
-			setLeftOpponent(leftWizard.name);
-			setRightOpponent(rightWizard.name);
-		}
-
-		localStorage.setItem('selectionMethod', 'auto');
-	};
-
 	const handleDuelSelectPage = (): void => {
 		navigate('/duel');
 	};
 
-	useEffect(() => {
-		updateDuelists();
+	useEffect((): void => {
+		localStorage.setItem('selectionMethod', 'auto');
 	}, []);
 
 	return (
 		<section className="pt-100">
 			<h2 className="title">Auto selection of opponents</h2>
 			<div className={styles.auto__wrapper}>
-				<WizardCard name={leftOpponent} healthPoints={100} mannaPoints={100} />
+				<WizardCard
+					name={`${leftWizardDetails?.firstName} ${leftWizardDetails?.lastName}`}
+					healthPoints={100}
+					mannaPoints={100}
+					imagePath={leftWizardDetails?.imagePath}
+				/>
 				<div className={styles.auto__cta}>
 					<Button label="Search" onClick={handleSearch} disabled={isSearching} />
 					<Button label="To fight!" onClick={modalOpenHandler} disabled={isSearching} />
 				</div>
-				<WizardCard name={rightOpponent} healthPoints={100} mannaPoints={100} />
+				<WizardCard
+					name={`${rightWizardDetails?.firstName} ${rightWizardDetails?.lastName}`}
+					healthPoints={100}
+					mannaPoints={100}
+					imagePath={rightWizardDetails?.imagePath}
+				/>
 				<Modal
 					text="Do you confirm your choice of characters?"
 					textCustomClass={styles.auto__text}
