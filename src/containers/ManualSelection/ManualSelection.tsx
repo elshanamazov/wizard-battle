@@ -99,16 +99,6 @@ const ManualSelection = () => {
 		wizards();
 	}, []);
 
-	useEffect(() => {
-		if (wizardsData.length > 0) {
-			setSelectedWizards({
-				firstDuelist: { id: wizardsData[0].id, name: wizardsData[0].firstName },
-				secondDuelist: { id: wizardsData[1]?.id, name: wizardsData[1]?.firstName },
-			});
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [wizardsData]);
-
 	return (
 		<section className="pt-100">
 			<h2 className="title">Manual selection of opponents</h2>
