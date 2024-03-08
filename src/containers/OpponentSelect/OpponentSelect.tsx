@@ -15,6 +15,7 @@ const OpponentSelect = () => {
 	return (
 		<section className="pt-100">
 			<h2 className="title">Selection of opponents</h2>
+			<p className="desc">You can either duel a random opponent or choose specific one</p>
 			<div className={styles.cta}>
 				<Button label="Manual Selection" onClick={handleManualSelect} />
 				<Button label="Automatic Selection" onClick={handleAutoSelect} />
