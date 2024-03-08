@@ -89,6 +89,7 @@ const ManualSelection = () => {
 	return (
 		<section className="pt-100">
 			<h2 className="title">Manual selection of opponents</h2>
+			<p className="desc">Choose your opponent for a wizard duel</p>
 			<div className={styles.manual__wrapper}>
 				<Slider
 					slides={wizardSlides}

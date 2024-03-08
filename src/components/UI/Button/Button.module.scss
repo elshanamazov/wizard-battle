@@ -7,11 +7,16 @@
 	padding: 10px 15px;
 	border-radius: 5px;
 	font-size: 16px;
+	transition: background-color 0.2s;
 	cursor: pointer;
 
 	&:disabled {
 		opacity: 0.6;
 		pointer-events: none;
 		cursor: not-allowed;
+	}
+
+	&:hover {
+		background-color: var(--с-grey-dark);
 	}
 }

@@ -72,6 +72,7 @@ const AutoSelection = () => {
 	return (
 		<section className="pt-100">
 			<h2 className="title">Auto selection of opponents</h2>
+			<p className="desc">Let magic choose your opponent for wizard duel</p>
 			<div className={styles.auto__wrapper}>
 				<WizardCard
 					name={`${leftWizardDetails?.firstName} ${leftWizardDetails?.lastName}`}

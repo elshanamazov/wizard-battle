@@ -17,9 +17,9 @@ const WizardCard = ({ name, healthPoints, mannaPoints, imagePath }: WizardCardPr
 				) : (
 					<div>No image available</div>
 				)}
+				<h3 className={styles.wizardCard__name}>{name}</h3>
 			</div>
 			<div className={styles.wizardCard__info}>
-				<h3 className={styles.wizardCard__name}>{name}</h3>
 				<span className={styles.wizardCard__bar}>{healthPoints}</span>
 				<span className={`${styles.wizardCard__bar} ${styles.wizardCard__bar_blue}`}>
 					{mannaPoints}

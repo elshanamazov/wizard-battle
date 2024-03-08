@@ -1,7 +1,29 @@
 @import 'normalize.css';
 
+@font-face {
+	font-family: 'BluuNext';
+	src: url('/fonts/BluuNext-Bold.woff2') format('woff2');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'BluuNext';
+	src: url('/fonts/BluuNext-BoldItalic.woff2') format('woff2');
+	font-weight: bold;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'BluuNext';
+	src: url('/fonts/BluuNext-Titling.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+
 :root {
-	--font-family: 'Merriweather', serif;
+	/* --font-family: 'Merriweather', serif; */
+	--font-family: 'BluuNext', serif;
 	--content-width: 1340px;
 	--container-offset: 30px;
 	--container-width: calc(var(--content-width) + (var(--container-offset) * 2));
@@ -24,6 +46,7 @@
 
 html {
 	font-family: var(--font-family);
+	height: 100%;
 }
 
 .container {
@@ -44,9 +67,17 @@ a {
 
 .title {
 	margin: 0;
-	margin-bottom: 60px;
+	margin-bottom: 20px;
 	font-size: 36px;
 	text-align: center;
+	font-weight: bold;
+}
+
+.desc {
+	margin: 0;
+	margin-bottom: 60px;
+	text-align: center;
+	font-size: 18px;
 }
 
 .pt-100 {

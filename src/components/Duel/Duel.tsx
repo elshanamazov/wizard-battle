@@ -69,6 +69,10 @@ const Duel = () => {
 			{isModalOpen && <Modal text={modalText} isOpen={true} onClose={modalHandler} />}
 			<section className={`pt-100`}>
 				<h2 className="title">Duel </h2>
+				<p className="desc">
+					Two power wizards facing each other in a fierce duel. Choose your spells wisely to win the
+					duel.
+				</p>
 				<div className={styles.duel__wrap}>
 					<div
 						className={`${styles.duel__panel} ${
