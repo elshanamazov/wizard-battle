@@ -2,45 +2,64 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/UI/Button/Button';
 import Modal from '../../components/UI/Modal/Modal';
+import SkeletonLoader from '../../components/UI/Skeleton/Skeleton';
 import Slider from '../../components/UI/Slider/Slider';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import useWizardsData from '../../hooks/useWizardsData';
 import { SelectedDuelists } from '../selectedDuelists';
 import styles from './ManualSelection.module.scss';
 
+type Slide = {
+	id: string;
+	content: JSX.Element;
+};
+
 const ManualSelection = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [counter, setCounter] = useState<number>(3);
 	const intervalRef = useRef<number | null>(null);
 	const navigate = useNavigate();
-	const { wizardsData, findWizardById } = useWizardsData();
+	const { wizardsData, findWizardById, isLoading } = useWizardsData();
 	const [selectedWizards, setSelectedWizards] = useLocalStorage<SelectedDuelists | null>(
 		'manualSelectedState',
 		null,
 	);
 
-	const wizardSlides = wizardsData?.map((wizardSlide) => ({
-		id: wizardSlide.id,
-		content: (
-			<>
-				<img
-					className={styles.manual__img}
-					src={wizardSlide.imagePath}
-					alt={wizardSlide.firstName}
-				/>
-				<h3 className={styles.manual__label}>
-					{wizardSlide.firstName} {wizardSlide.lastName}
-				</h3>
-			</>
-		),
-	}));
+	const wizardSlides = wizardsData?.map(
+		(wizardSlide): Slide => ({
+			id: wizardSlide.id,
+			content: (
+				<>
+					<img
+						className={styles.manual__img}
+						src={wizardSlide.imagePath}
+						alt={`${wizardSlide.firstName} ${wizardSlide.lastName}`}
+					/>
+					<h3 className={styles.manual__label}>
+						{wizardSlide.firstName} {wizardSlide.lastName}
+					</h3>
+				</>
+			),
+		}),
+	);
 
-	const closeModal = (): void => {
+	const generateSkeletonSlides = (): Slide[] => {
+		const slides = [];
+		for (let i = 0; i < wizardSlides.length; i++) {
+			slides.push({
+				id: `skeleton-${i}`,
+				content: <SkeletonLoader key={`skeleton-${i}`} width={360} height={320} />,
+			});
+		}
+		return slides;
+	};
+
+	function closeModal(): void {
 		setIsModalOpen(false);
 		if (intervalRef.current !== null) {
 			clearInterval(intervalRef.current);
 		}
-	};
+	}
 
 	const handleWizardSelect = (position: 'firstDuelist' | 'secondDuelist') => (wizardId: string) => {
 		const wizardInfo = findWizardById(wizardId);
@@ -91,17 +110,25 @@ const ManualSelection = () => {
 			<h2 className="title">Manual selection of opponents</h2>
 			<p className="desc">Choose your opponent for a wizard duel</p>
 			<div className={styles.manual__wrapper}>
-				<Slider
-					slides={wizardSlides}
-					onSelect={handleWizardSelect('firstDuelist')}
-					activeIndex={getWizardIndexById(selectedWizards?.firstDuelist?.id)}
-				/>
+				{isLoading ? (
+					<Slider slides={generateSkeletonSlides()} activeIndex={0} />
+				) : (
+					<Slider
+						slides={wizardSlides}
+						onSelect={handleWizardSelect('firstDuelist')}
+						activeIndex={getWizardIndexById(selectedWizards?.firstDuelist?.id)}
+					/>
+				)}
 				<Button label="To Fight!" onClick={startCounter} />
-				<Slider
-					slides={wizardSlides}
-					onSelect={handleWizardSelect('secondDuelist')}
-					activeIndex={getWizardIndexById(selectedWizards?.secondDuelist?.id)}
-				/>
+				{isLoading ? (
+					<Slider slides={generateSkeletonSlides()} activeIndex={0} />
+				) : (
+					<Slider
+						slides={wizardSlides}
+						onSelect={handleWizardSelect('secondDuelist')}
+						activeIndex={getWizardIndexById(selectedWizards?.secondDuelist?.id)}
+					/>
+				)}
 			</div>
 			{isModalOpen && (
 				<Modal

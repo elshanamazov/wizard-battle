@@ -11,7 +11,7 @@ import styles from './AutoSelection.module.scss';
 const AutoSelection = () => {
 	const [isModalOpen, setModalIsOpen] = useState<boolean>(false);
 	const [isSearching, setIsSearching] = useState<boolean>(false);
-	const { wizardsData, findWizardById } = useWizardsData();
+	const { wizardsData, findWizardById, isLoading } = useWizardsData();
 	const navigate = useNavigate();
 	const [selectedWizards, setSelectedWizards] = useLocalStorage<SelectedDuelists | null>(
 		'autoSelectedState',
@@ -75,6 +75,7 @@ const AutoSelection = () => {
 			<p className="desc">Let magic choose your opponent for wizard duel</p>
 			<div className={styles.auto__wrapper}>
 				<WizardCard
+					isLoading={isLoading}
 					name={`${leftWizardDetails?.firstName} ${leftWizardDetails?.lastName}`}
 					healthPoints={100}
 					mannaPoints={100}
@@ -85,6 +86,7 @@ const AutoSelection = () => {
 					<Button label="To fight!" onClick={modalOpenHandler} disabled={isSearching} />
 				</div>
 				<WizardCard
+					isLoading={isLoading}
 					name={`${rightWizardDetails?.firstName} ${rightWizardDetails?.lastName}`}
 					healthPoints={100}
 					mannaPoints={100}
