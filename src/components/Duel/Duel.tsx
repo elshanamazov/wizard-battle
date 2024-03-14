@@ -4,6 +4,7 @@ import useLocalStorage from '../../hooks/useLocalStorage';
 import useWizardsData from '../../hooks/useWizardsData';
 import { SpellsResponseType, getSpells } from '../../services/spellsServices';
 import Modal from '../UI/Modal/Modal';
+import SkeletonLoader from '../UI/Skeleton/Skeleton';
 import styles from './Duel.module.scss';
 import DuelCard from './DuelCard/DuelCard';
 import DuelPotion from './DuelPotion/DuelPotion';
@@ -15,7 +16,8 @@ const Duel = () => {
 		`${selectionMethod === 'auto' ? 'autoSelectedState' : 'manualSelectedState'}`,
 		null,
 	);
-	const { findWizardById } = useWizardsData();
+	const { findWizardById, isLoading } = useWizardsData();
+	const [isSpellsLoading, setIsSpellsLoading] = useState<boolean>(true);
 	const [spells, setSpells] = useState<SpellsResponseType[]>([]);
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
 	const [activePlayerId, setActivePlayerId] = useState<string | undefined>('');
@@ -53,11 +55,14 @@ const Duel = () => {
 
 	useEffect((): void => {
 		const loadSpells = async () => {
+			setIsSpellsLoading(true);
 			try {
 				const spellsData = await getSpells();
 				setSpells(spellsData);
 			} catch (error) {
 				console.error('Failed to fetch spells', error);
+			} finally {
+				setIsSpellsLoading(false);
 			}
 		};
 
@@ -84,22 +89,30 @@ const Duel = () => {
 							<div className={styles.duel__potions}>
 								<DuelPotion />
 							</div>
-							<DuelCard
-								name={selectedWizards?.firstDuelist?.name}
-								health={100}
-								mana={100}
-								imagePath={firstWizardDetails?.imagePath}
-							/>
+							{isLoading ? (
+								<SkeletonLoader count={1} width={360} height={320} />
+							) : (
+								<DuelCard
+									name={selectedWizards?.firstDuelist?.name}
+									health={100}
+									mana={100}
+									imagePath={firstWizardDetails?.imagePath}
+								/>
+							)}
 						</div>
 						<div className={styles.duel__spells}>
-							{spells.map((spell) => (
-								<DuelSpell
-									key={spell.id}
-									name={spell.name}
-									damage={getRandomInt(20, 50)}
-									manaCost={getRandomInt(10, 30)}
-								/>
-							))}
+							{isSpellsLoading ? (
+								<SkeletonLoader count={24} width={185} height={90} />
+							) : (
+								spells.map((spell) => (
+									<DuelSpell
+										key={spell.id}
+										name={spell.name}
+										damage={getRandomInt(20, 50)}
+										manaCost={getRandomInt(10, 30)}
+									/>
+								))
+							)}
 						</div>
 					</div>
 					<div className={styles.duel__points}>
@@ -115,23 +128,31 @@ const Duel = () => {
 							<div className={styles.duel__potions}>
 								<DuelPotion />
 							</div>
-							<DuelCard
-								name={selectedWizards?.secondDuelist?.name}
-								health={100}
-								mana={100}
-								reverse={true}
-								imagePath={secondWizardDetails?.imagePath}
-							/>
+							{isLoading ? (
+								<SkeletonLoader count={1} width={360} height={320} />
+							) : (
+								<DuelCard
+									name={selectedWizards?.secondDuelist?.name}
+									health={100}
+									mana={100}
+									reverse={true}
+									imagePath={secondWizardDetails?.imagePath}
+								/>
+							)}
 						</div>
 						<div className={styles.duel__spells}>
-							{spells.map((spell) => (
-								<DuelSpell
-									key={spell.id}
-									name={spell.name}
-									damage={getRandomInt(20, 50)}
-									manaCost={getRandomInt(10, 30)}
-								/>
-							))}
+							{isSpellsLoading ? (
+								<SkeletonLoader count={24} width={185} height={90} />
+							) : (
+								spells.map((spell) => (
+									<DuelSpell
+										key={spell.id}
+										name={spell.name}
+										damage={getRandomInt(20, 50)}
+										manaCost={getRandomInt(10, 30)}
+									/>
+								))
+							)}
 						</div>
 					</div>
 				</div>
