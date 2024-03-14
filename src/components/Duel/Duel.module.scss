@@ -8,7 +8,9 @@
 	&__panel {
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 		gap: 25px;
+		position: relative;
 
 		&_disabled {
 			opacity: 0.5;
@@ -19,6 +21,7 @@
 	&__header {
 		display: flex;
 		gap: 15px;
+		position: relative;
 
 		&_reverse {
 			flex-direction: row-reverse;
@@ -52,5 +55,35 @@
 		gap: 5px;
 		font-size: 21px;
 		font-weight: 600;
+	}
+}
+
+.turnPointer {
+	position: absolute;
+	left: 0%;
+	top: -80px;
+	width: 100%;
+	overflow: hidden;
+	object-fit: cover;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	animation: bounce 1s infinite;
+
+	& img {
+		transform: rotate(90deg);
+		width: 20px;
+		height: 20px;
+	}
+}
+
+@keyframes bounce {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-20px);
 	}
 }
