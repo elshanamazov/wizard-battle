@@ -69,7 +69,7 @@ const Duel = () => {
 					<div className={styles.duel__header}>
 						{activePlayerId === selectedWizards?.firstDuelist?.id && (
 							<div className={styles.turnPointer}>
-								<p>Cast your spell</p>
+								<p className={styles.turnPointer__text}>Cast your spell</p>
 								<img src={arrowIcon} alt="Active player indicator" loading="lazy" />
 							</div>
 						)}
@@ -112,7 +112,7 @@ const Duel = () => {
 					<div className={`${styles.duel__header} ${styles.duel__header_reverse}`}>
 						{activePlayerId === selectedWizards?.secondDuelist?.id && (
 							<div className={styles.turnPointer}>
-								<p>Cast your spell</p>
+								<p className={styles.turnPointer__text}>Cast your spell</p>
 								<img src={arrowIcon} alt="Active player indicator" loading="lazy" />
 							</div>
 						)}

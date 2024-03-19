@@ -60,16 +60,19 @@
 
 .turnPointer {
 	position: absolute;
-	left: 0%;
+	left: 0;
 	top: -80px;
 	width: 100%;
 	overflow: hidden;
 	object-fit: cover;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
 	animation: bounce 1s infinite;
+
+	&__text {
+		margin: 0;
+	}
 
 	& img {
 		transform: rotate(90deg);
