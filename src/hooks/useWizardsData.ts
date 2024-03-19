@@ -1,4 +1,3 @@
-// hooks/useWizardsData.js
 import { useEffect, useState } from 'react';
 import { WizardsResponseType, getWizards } from '../services/wizardsService';
 

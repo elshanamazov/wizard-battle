@@ -1,4 +1,4 @@
-import { imagesForWizardsApi } from '../config/imagesForWizardsApi';
+import { characterImageURLs } from '../config/characterImageURLs';
 import apiClient from './apiService';
 
 export type WizardsResponseType = {
@@ -30,7 +30,7 @@ export const getWizards = async (): Promise<WizardsResponseType[]> => {
 			id: wizard.id,
 			firstName: wizard.firstName ?? '',
 			lastName: wizard.lastName ?? '',
-			imagePath: imagesForWizardsApi[`${wizard.firstName} ${wizard.lastName}`] ?? '',
+			imagePath: characterImageURLs[`${wizard.firstName} ${wizard.lastName}`] ?? '',
 		}));
 
 	return filteredResponseData;
